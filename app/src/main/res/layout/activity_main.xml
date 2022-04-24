@@ -6,28 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".View.MainActivity"
     android:id="@+id/drawer"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    android:visibility="gone">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00BCD4"
-            android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/container"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+            android:id="@+id/weekFrameLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mainFrameLayout"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainFrameLayout"
+            app:layout_constraintBottom_toTopOf="@id/kcalFrameLayout"
+            app:layout_constraintTop_toBottomOf="@id/weekFrameLayout"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/kcalFrameLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainFrameLayout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

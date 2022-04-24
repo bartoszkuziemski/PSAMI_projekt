@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.Adapter.MealAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private MaterialToolbar materialToolbar;
+
+    private RecyclerView mealRecView;
+    private MealAdapter mealAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
-        setSupportActionBar(materialToolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, materialToolbar, R.string.drawer_open, R.string.drawer_closed);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        mealAdapter = new MealAdapter(this);
+        mealRecView.setAdapter(mealAdapter);
+        mealRecView.setLayoutManager(new LinearLayoutManager(this));
+        //// TODO: 25.04.2022 adapter.setMeals , probably with ViewModel
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -61,6 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
-        materialToolbar = findViewById(R.id.toolbar);
+        mealRecView = findViewById(R.id.mealRecView);
     }
 }
