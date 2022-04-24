@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Meal Plan"
+        android:id="@+id/mealPlan"
+        android:icon="@drawable/ic_meal_plan"/>
+
+    <item
+        android:title="Recipes"
+        android:id="@+id/recipes"
+        android:icon="@drawable/ic_recipes"/>
+
+    <item
+        android:title="Summary"
+        android:id="@+id/summary"
+        android:icon="@drawable/ic_summary"/>
+
+    <item
+        android:title="Body Measurements"
+        android:id="@+id/bodyMeasurements"
+        android:icon="@drawable/ic_body_measurements"/>
+
+    <item
+        android:title="Settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"/>
+
+</menu>
