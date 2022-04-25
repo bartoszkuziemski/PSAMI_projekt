@@ -6,33 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".View.MainActivity"
     android:id="@+id/drawer"
-    tools:openDrawer="start"
-    android:visibility="gone">
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/weekFrameLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mainFrameLayout"-->
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/weekFrameLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/mainFrameLayout"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/mainFrameLayout"
-            app:layout_constraintBottom_toTopOf="@id/kcalFrameLayout"
-            app:layout_constraintTop_toBottomOf="@id/weekFrameLayout"/>
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"/>
 
-        <FrameLayout
+        <!--FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/kcalFrameLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainFrameLayout"/>
+            app:layout_constraintTop_toBottomOf="@id/mainFrameLayout"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
