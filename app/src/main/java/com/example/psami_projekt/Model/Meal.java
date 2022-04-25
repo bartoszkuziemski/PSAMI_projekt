@@ -5,10 +5,15 @@ import java.util.ArrayList;
 public class Meal {
 
     private String name;
-    private Integer kcal, proteins, fats, carbs;
+    private Integer kcal;
+    private Double proteins, fats, carbs;
     ArrayList<Product> products;
 
-    public Meal(String name, Integer kcal, Integer proteins, Integer fats, Integer carbs) {
+    public Meal(String name) {
+        this(name, 0, 0.0, 0.0, 0.0);
+    }
+
+    public Meal(String name, Integer kcal, Double proteins, Double fats, Double carbs) {
         this.name = name;
         this.kcal = kcal;
         this.proteins = proteins;
@@ -32,27 +37,27 @@ public class Meal {
         this.kcal = kcal;
     }
 
-    public Integer getProteins() {
+    public Double getProteins() {
         return proteins;
     }
 
-    public void setProteins(Integer proteins) {
+    public void setProteins(Double proteins) {
         this.proteins = proteins;
     }
 
-    public Integer getFats() {
+    public Double getFats() {
         return fats;
     }
 
-    public void setFats(Integer fats) {
+    public void setFats(Double fats) {
         this.fats = fats;
     }
 
-    public Integer getCarbs() {
+    public Double getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(Integer carbs) {
+    public void setCarbs(Double carbs) {
         this.carbs = carbs;
     }
 

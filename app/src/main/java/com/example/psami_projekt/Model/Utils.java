@@ -11,8 +11,8 @@ public class Utils {
         if (meals == null) {
             meals = new ArrayList<>();
 
-            Meal breakfast = new Meal("breakfast", 0, 0, 0, 0);
-            Meal lunch = new Meal("lunch", 0, 0, 0, 0);
+            Meal breakfast = new Meal("breakfast");
+            Meal lunch = new Meal("lunch");
 
             meals.add(breakfast);
             meals.add(lunch);
