@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
 import com.example.psami_projekt.R;
-
-import com.example.psami_projekt.View.MainActivity;
 import com.example.psami_projekt.View.SearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

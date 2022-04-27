@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.SearchAdapter;
@@ -19,12 +21,22 @@ public class SearchActivity extends AppCompatActivity {
     private SearchAdapter searchAdapter;
     private EditText searchBox;
 
+    private TextView txtTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         initViews();
+
+        // tests
+        txtTest = findViewById(R.id.txtTest);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        ArrayList<Product> products = new ArrayList<>();
+        products = databaseHelper.loadHandler();
+        txtTest.setText(products.get(0).toString());
+
 
         searchAdapter = new SearchAdapter(this);
         searchRecView.setAdapter(searchAdapter);
