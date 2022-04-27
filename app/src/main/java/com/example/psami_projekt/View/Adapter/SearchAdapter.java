@@ -35,7 +35,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtProductName.setText(searchedProducts.get(position).getName());
         holder.txtProductDesc.setText(searchedProducts.get(position).getDescription());
-        holder.txtProductKcal.setText(searchedProducts.get(position).getKcal());
+        holder.txtProductKcal.setText(String.valueOf(searchedProducts.get(position).getKcal()));
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         private TextView txtProductName, txtProductDesc, txtProductKcal;
         private ConstraintLayout parent;
 

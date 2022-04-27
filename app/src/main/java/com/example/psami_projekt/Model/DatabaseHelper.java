@@ -134,6 +134,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
+    public ArrayList<Product> getProductsByName(String name) {
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Product> products = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query("food", null, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "10");
+        while (cursor.moveToNext()) {
+            Product product = new Product();
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
+            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
+
+            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
+            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
+            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
+            product.setProtein(protein);
+            product.setFat(fat);
+            product.setCarbs(carbs);
+
+            // calculate kcal because there is none in DB
+            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
+            product.setKcal(kcal);
+
+            products.add(product);
+        }
+        cursor.close();
+        db.close();
+        return products;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
