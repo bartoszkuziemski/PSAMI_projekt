@@ -63,7 +63,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             super(itemView);
             this.txtProductName = itemView.findViewById(R.id.txtProductName);
             this.txtProductDesc = itemView.findViewById(R.id.txtProductDesc);
-            this.txtProductKcal = itemView.findViewById(R.id.txtMealKcal);
+            this.txtProductKcal = itemView.findViewById(R.id.txtProductKcal);
             this.parent = itemView.findViewById(R.id.searchLayoutParent);
         }
     }

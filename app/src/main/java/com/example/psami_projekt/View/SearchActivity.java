@@ -37,22 +37,10 @@ public class SearchActivity extends AppCompatActivity {
 
         initViews();
 
-        // tests
-        txtTest = findViewById(R.id.txtTest);
-//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-//        ArrayList<Product> products = new ArrayList<>();
-//        products = databaseHelper.loadHandler();
-//        txtTest.setText(products.get(0).toString());
-
-
         searchAdapter = new SearchAdapter(this);
         searchRecView.setAdapter(searchAdapter);
         searchRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        searchedProducts.add(new Product(9999, 100, "test", "desc", 2.0, 3.0, 4.0));
-        if (searchedProducts != null) {
-            searchAdapter.setSearchedProducts(searchedProducts);
-        }
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +81,6 @@ public class SearchActivity extends AppCompatActivity {
             if (searchedProducts != null) {
                 searchAdapter.setSearchedProducts(searchedProducts);
             }
-
-            // txtTest.setText(products.get(0).toString());
 
         }
     }
