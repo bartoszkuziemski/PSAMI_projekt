@@ -10,9 +10,8 @@ public class Product {
 
     }
 
-    public Product(int id, int kcal, String name, String description, double protein, double fat, double carbs) {
-        this.id = id;
-        this.kcal = kcal;
+    public Product(String name, String description, double protein, double fat, double carbs) {
+        this.kcal = (int) (fat * 9 + (carbs + protein) * 4);
         this.name = name;
         this.description = description;
         this.protein = protein;

@@ -35,4 +35,10 @@ public class ProductsViewModel extends ViewModel {
         searchedProducts = databaseHelper.getProductsByName(productName);
         return searchedProducts;
     }
+
+    public void addToDatabase(Product product) {
+        if (product != null) {
+            databaseHelper.addProduct(product);
+        }
+    }
 }

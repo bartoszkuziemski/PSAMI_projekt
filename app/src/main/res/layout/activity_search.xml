@@ -14,12 +14,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addNewProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabNewProduct"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add_white"
+                android:tint="@color/white"
+                app:fabCustomSize="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New product"
+                app:layout_constraintBottom_toBottomOf="@+id/fabNewProduct"
+                app:layout_constraintStart_toEndOf="@+id/fabNewProduct"
+                app:layout_constraintTop_toTopOf="@id/fabNewProduct" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <EditText
             android:id="@+id/searchBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:ems="10"
             android:hint="Enter product name"
             android:inputType="textPersonName"

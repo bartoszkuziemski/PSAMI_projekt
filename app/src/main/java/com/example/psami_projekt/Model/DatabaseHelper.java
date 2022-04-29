@@ -20,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static SQLiteDatabase myDataBase;
     private final Context myContext;
     private static final String DATABASE_NAME = "food.db";
-    // public static final String DATABASE_PATH = "/data/data/com.example.sqltesting/databases/";
     public static final String DATABASE_PATH = "/data/user/0/com.example.psami_projekt/databases/";
     public static final int DATABASE_VERSION = 1;
 
@@ -169,6 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return products;
+    }
+
+    public void addProduct(Product product) {
+
     }
 
     @Override
