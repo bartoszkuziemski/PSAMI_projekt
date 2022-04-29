@@ -6,9 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.ArrayAdapter;
 
-import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private SQLiteDatabase myDataBase;
+    private static SQLiteDatabase myDataBase;
     private final Context myContext;
     private static final String DATABASE_NAME = "food.db";
     // public static final String DATABASE_PATH = "/data/data/com.example.sqltesting/databases/";
@@ -33,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Check if database already exist or not
     private boolean checkDataBase() {
-        boolean checkDB = false;
+        boolean checkDB;
         try {
             final String myPath = DATABASE_PATH + DATABASE_NAME;
             final File dbfile = new File(myPath);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.SearchAdapter;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
 
@@ -27,9 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     private EditText searchBox;
     private ImageView btnSearch;
     private ArrayList<Product> searchedProducts = new ArrayList<>();
-
-    // tests
-    private TextView txtTest;
+    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +37,15 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         initViews();
-
-        searchAdapter = new SearchAdapter(this);
-        searchRecView.setAdapter(searchAdapter);
-        searchRecView.setLayoutManager(new LinearLayoutManager(this));
+        initRecyclerView();
 
         /**
          * init some products at the beginning
          */
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        searchedProducts = databaseHelper.loadHandler();
+        searchedProducts = productsViewModel.getStaringProducts();
         if (searchedProducts != null) {
             searchAdapter.setSearchedProducts(searchedProducts);
         }
-
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,15 +81,11 @@ public class SearchActivity extends AppCompatActivity {
     private void initSearch() {
         if (!searchBox.getText().toString().equals("")) {
             String productName = searchBox.getText().toString();
-            //// TODO: 27.04.2022 get items, change to ViewModel
-
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-            searchedProducts = databaseHelper.getProductsByName(productName);
+            searchedProducts = productsViewModel.getProductsByName(productName);
 
             if (searchedProducts != null) {
                 searchAdapter.setSearchedProducts(searchedProducts);
             }
-
         }
     }
 
@@ -103,4 +94,11 @@ public class SearchActivity extends AppCompatActivity {
         searchBox = findViewById(R.id.searchBox);
         btnSearch = findViewById(R.id.btnSearch);
     }
+
+    private void initRecyclerView() {
+        searchAdapter = new SearchAdapter(this);
+        searchRecView.setAdapter(searchAdapter);
+        searchRecView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
 }
