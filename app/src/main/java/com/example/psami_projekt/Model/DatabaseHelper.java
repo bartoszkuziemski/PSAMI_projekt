@@ -99,6 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
+    /**
+     * init some products at the beginning
+     * @return
+     */
     public ArrayList<Product> loadHandler() {
         try {
             createDatabase();
@@ -109,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from food limit 5;", null);
+        Cursor cursor = db.rawQuery("select * from food limit 20;", null);
         while (cursor.moveToNext()) {
             Product product = new Product();
             product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
@@ -144,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query("food", null, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "10");
+        Cursor cursor = db.query("food", null, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "20");
         while (cursor.moveToNext()) {
             Product product = new Product();
             product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));

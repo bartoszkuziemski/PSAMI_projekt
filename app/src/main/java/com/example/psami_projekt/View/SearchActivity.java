@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +42,15 @@ public class SearchActivity extends AppCompatActivity {
         searchRecView.setAdapter(searchAdapter);
         searchRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        /**
+         * init some products at the beginning
+         */
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        searchedProducts = databaseHelper.loadHandler();
+        if (searchedProducts != null) {
+            searchAdapter.setSearchedProducts(searchedProducts);
+        }
+
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +80,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * get text from searchBox and get products from db by name
+     */
     private void initSearch() {
         if (!searchBox.getText().toString().equals("")) {
             String productName = searchBox.getText().toString();

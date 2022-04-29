@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/searchLayoutParent"
     android:padding="5dp">
 
@@ -17,7 +17,8 @@
         android:textStyle="bold"
         android:textSize="16dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txtProductDesc"
@@ -32,10 +33,19 @@
         android:id="@+id/txtProductKcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123 kcal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="123"
+        app:layout_constraintEnd_toStartOf="@id/txtKcal"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/txtKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" kcal"
+        app:layout_constraintTop_toTopOf="@id/txtProductKcal"
+        app:layout_constraintTop_toBottomOf="@id/txtProductKcal"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
