@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
@@ -26,21 +27,24 @@ public class NewProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_product);
 
         initViews();
-        String name = editTextName.getText().toString();
-        String description = editTextDescription.getText().toString();
-        double protein = Double.parseDouble(editTextProtein.getText().toString());
-        double fat = Double.parseDouble(editTextFat.getText().toString());
-        double carbs = Double.parseDouble(editTextCarbs.getText().toString());
+
 
         btnNewProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (name.equals("") || description.equals("") || editTextProtein.getText().toString().equals("") ||
+                if (editTextName.getText().toString().equals("") || editTextDescription.getText().toString().equals("") || editTextProtein.getText().toString().equals("") ||
                         editTextFat.getText().toString().equals("") || editTextCarbs.getText().toString().equals("")) {
                     txtAlert.setVisibility(View.VISIBLE);
                 } else {
+                    txtAlert.setVisibility(View.GONE);
+                    String name = editTextName.getText().toString();
+                    String description = editTextDescription.getText().toString();
+                    double protein = Double.parseDouble(editTextProtein.getText().toString());
+                    double fat = Double.parseDouble(editTextFat.getText().toString());
+                    double carbs = Double.parseDouble(editTextCarbs.getText().toString());
                     Product newProduct = new Product(name, description, protein, fat, carbs);
-                    productsViewModel.addToDatabase(newProduct);
+                    //productsViewModel.addToDatabase(newProduct);
+                    Toast.makeText(NewProductActivity.this, "new product added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
