@@ -36,9 +36,10 @@ public class ProductsViewModel extends ViewModel {
         return searchedProducts;
     }
 
-    public void addToDatabase(Product product) {
+    public boolean addToDatabase(Product product) {
         if (product != null) {
-            databaseHelper.addProduct(product);
+            return databaseHelper.addProduct(product);
         }
+        return false;
     }
 }

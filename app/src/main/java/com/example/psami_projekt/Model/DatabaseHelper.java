@@ -1,5 +1,6 @@
 package com.example.psami_projekt.Model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -170,8 +171,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
-    public void addProduct(Product product) {
+    public boolean checkIfExistInDB(Product product) {
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[] {product.getName(), product.getDescription()});
+
+        if (cursor.getCount()>0) {
+            cursor.close();
+            db.close();
+            return true;
+        } else {
+            cursor.close();
+            db.close();
+            return false;
+        }
+    }
+
+    public boolean addProduct(Product product) {
+        if (checkIfExistInDB(product)){
+            return false;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        String name = product.getName();
+        String description = product.getDescription();
+        double protein = product.getProtein();
+        double fat = product.getFat();
+        double carbs = product.getCarbs();
+        values.put("Category", name);
+        values.put("Description", description);
+        values.put("DataProtein", protein);
+        values.put("DataFatTotalLipid", fat);
+        values.put("DataCarbohydrate", carbs);
+        long result = db.insert("food", null, values);
+        db.close();
+        if (result<0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

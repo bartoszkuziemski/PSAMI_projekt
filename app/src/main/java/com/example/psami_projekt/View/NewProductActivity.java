@@ -43,8 +43,11 @@ public class NewProductActivity extends AppCompatActivity {
                     double fat = Double.parseDouble(editTextFat.getText().toString());
                     double carbs = Double.parseDouble(editTextCarbs.getText().toString());
                     Product newProduct = new Product(name, description, protein, fat, carbs);
-                    //productsViewModel.addToDatabase(newProduct);
-                    Toast.makeText(NewProductActivity.this, "new product added", Toast.LENGTH_SHORT).show();
+                    if (productsViewModel.addToDatabase(newProduct)) {
+                        Toast.makeText(NewProductActivity.this, "New product added successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(NewProductActivity.this, "Cannot add a product", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
