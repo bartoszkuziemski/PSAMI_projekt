@@ -77,14 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void db_delete() {
-        File file = new File(DATABASE_PATH + DATABASE_NAME);
-        if (file.exists()) {
-            file.delete();
-            System.out.println("delete database file");
-        }
-    }
-
     public void openDatabase() throws SQLException {
         String myPath = DATABASE_PATH + DATABASE_NAME;
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
@@ -169,6 +161,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return products;
+    }
+
+    public Product getProductById(int id) {
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from food where rowid = ?" , new String[] {String.valueOf(id)});
+        Product product = new Product();
+
+        if (cursor.moveToNext()) {
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
+            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
+
+            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
+            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
+            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
+            product.setProtein(protein);
+            product.setFat(fat);
+            product.setCarbs(carbs);
+
+            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
+            product.setKcal(kcal);
+        }
+        cursor.close();
+        db.close();
+        return product;
     }
 
     public boolean checkIfExistInDB(Product product) {

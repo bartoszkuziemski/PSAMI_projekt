@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.View.ProductActivity;
 import com.example.psami_projekt.View.SearchActivity;
 
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class ProductsViewModel extends ViewModel {
         ArrayList<Product> searchedProducts = new ArrayList<>();
         searchedProducts = databaseHelper.getProductsByName(productName);
         return searchedProducts;
+    }
+
+    public Product getProductById(int id) {
+        Product product = databaseHelper.getProductById(id);
+        return product;
     }
 
     public boolean addToDatabase(Product product) {

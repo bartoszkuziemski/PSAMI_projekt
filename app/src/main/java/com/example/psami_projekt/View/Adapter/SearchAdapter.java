@@ -1,10 +1,14 @@
 package com.example.psami_projekt.View.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.ProductActivity;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
 
@@ -40,8 +46,34 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 //// TODO: 27.04.2022 go to product activity
+                //Toast.makeText(context, "product clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ProductActivity.class);
+                intent.putExtra(ProductActivity.PRODUCT_ID_KEY, searchedProducts.get(position).getId());
+                context.startActivity(intent);
             }
         });
+//        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setMessage("Are you sure you want to delete " + searchedProducts.get(position).getName() + "?");
+//                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        // TODO: 03.05.2022 delete item from db
+//                        //notifyDataSetChanged();
+//                        Toast.makeText(context, "item deleted", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        // nothing
+//                    }
+//                });
+//                return true;
+//            }
+//        });
     }
 
     public void setSearchedProducts(ArrayList<Product> searchedProducts) {
