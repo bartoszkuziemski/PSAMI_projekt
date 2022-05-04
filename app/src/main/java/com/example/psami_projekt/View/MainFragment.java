@@ -33,7 +33,7 @@ public class MainFragment extends Fragment {
         mealAdapter = new MealAdapter(getContext());
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //// TODO: 25.04.2022 adapter.setMeals , probably with ViewModel
+        //// TODO: 25.04.2022 adapter.setMeals , ViewModel
         ArrayList<Meal> meals = Utils.getMeals();
         if (meals != null) {
             mealAdapter.setMeals(meals);

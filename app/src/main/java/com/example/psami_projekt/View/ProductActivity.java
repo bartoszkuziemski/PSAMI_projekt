@@ -59,15 +59,12 @@ public class ProductActivity extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //// TODO: 04.05.2022 delete from db
-
                         if (productsViewModel.deleteFromDatabase(ProductActivity.this.id)) {
                             Toast.makeText(ProductActivity.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(ProductActivity.this, "Error during deleting product", Toast.LENGTH_SHORT).show();
                         }
-                        //notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

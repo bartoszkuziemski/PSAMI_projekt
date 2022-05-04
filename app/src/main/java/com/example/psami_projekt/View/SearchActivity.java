@@ -99,6 +99,12 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initSearch();
+    }
+
     /**
      * get text from searchBox and get products from db by name
      */

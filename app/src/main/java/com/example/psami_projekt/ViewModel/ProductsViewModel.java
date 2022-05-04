@@ -51,4 +51,5 @@ public class ProductsViewModel extends ViewModel {
     public boolean deleteFromDatabase(int id) {
         return databaseHelper.deleteProduct(id);
     }
+
 }
