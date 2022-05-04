@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.View.ProductActivity;
 
 import java.util.ArrayList;
 
@@ -45,5 +46,9 @@ public class ProductsViewModel extends ViewModel {
             return databaseHelper.addProduct(product);
         }
         return false;
+    }
+
+    public boolean deleteFromDatabase(int id) {
+        return databaseHelper.deleteProduct(id);
     }
 }

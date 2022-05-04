@@ -25,6 +25,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     private ArrayList<Product> searchedProducts = new ArrayList<>();
     private Context context;
+    private ProductsViewModel productsViewModel = new ProductsViewModel(context);
 
     public SearchAdapter(Context context) {
         this.context = context;
@@ -52,28 +53,33 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 context.startActivity(intent);
             }
         });
-//        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("Are you sure you want to delete " + searchedProducts.get(position).getName() + "?");
-//                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        // TODO: 03.05.2022 delete item from db
-//                        //notifyDataSetChanged();
-//                        Toast.makeText(context, "item deleted", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        // nothing
-//                    }
-//                });
-//                return true;
-//            }
-//        });
+        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete " + searchedProducts.get(holder.getAbsoluteAdapterPosition()).getName() + "?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO: 03.05.2022 delete item from db
+                        //notifyDataSetChanged();
+                        if (productsViewModel.deleteFromDatabase(searchedProducts.get(holder.getAbsoluteAdapterPosition()).getId())) {
+                            Toast.makeText(context, "Item deleted successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Error during deleting product", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // nothing
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
     }
 
     public void setSearchedProducts(ArrayList<Product> searchedProducts) {

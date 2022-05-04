@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "food.db";
     public static final String DATABASE_PATH = "/data/user/0/com.example.psami_projekt/databases/";
     public static final int DATABASE_VERSION = 1;
+    public static final String FOOD_TABLE_NAME = "food";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -251,6 +252,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    /**
+     * delete product from database
+     * @param id rowid
+     * @return true if number of deleted rows is greater than 0
+     */
+    public boolean deleteProduct(int id) {
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Cursor cursor = db.rawQuery("DELETE FROM food WHERE rowid = ?", new String[] {String.valueOf(id)});
+        int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[] {String.valueOf(id)});
+        db.close();
+        return deletedRows > 0;
     }
 
     @Override
