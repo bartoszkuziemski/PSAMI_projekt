@@ -48,7 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 //// TODO: 27.04.2022 go to product activity
                 //Toast.makeText(context, "product clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra(ProductActivity.PRODUCT_ID_KEY, searchedProducts.get(position).getId());
+                intent.putExtra(ProductActivity.PRODUCT_ID_KEY, searchedProducts.get(holder.getAbsoluteAdapterPosition()).getId());
                 context.startActivity(intent);
             }
         });

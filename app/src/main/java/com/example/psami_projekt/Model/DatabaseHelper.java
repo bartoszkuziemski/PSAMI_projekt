@@ -29,7 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.myContext = context;
     }
 
-    //Check if database already exist or not
+    /**
+     * Check if database already exist or not
+     * @return true if exist
+     */
     private boolean checkDataBase() {
         boolean checkDB;
         try {
@@ -43,7 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return checkDB;
     }
 
-    //Copies your database from your local assets-folder to the just created empty database in the system folder
+    /**
+     * Copies database from local assets-folder to the just created empty database in the system folder
+     * @throws IOException e
+     */
     private void copyDataBase() throws IOException {
         try {
             InputStream mInput = myContext.getAssets().open(DATABASE_NAME);
@@ -90,10 +96,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * init some products at the beginning
-     * @return
+     * Init some products at the beginning
+     * @return Array of products
      */
-    public ArrayList<Product> loadHandler() {
+    public ArrayList<Product> initStartingProducts() {
         try {
             createDatabase();
         } catch (IOException e) {
@@ -103,10 +109,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from food limit 20;", null);
+        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food limit 20;", null);
         while (cursor.moveToNext()) {
             Product product = new Product();
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
@@ -138,10 +144,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query("food", null, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "20");
+        Cursor cursor = db.query("food", new String[] {"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "20");
         while (cursor.moveToNext()) {
             Product product = new Product();
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
@@ -171,11 +177,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from food where rowid = ?" , new String[] {String.valueOf(id)});
+        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food where rowid = ?" , new String[] {String.valueOf(id)});
         Product product = new Product();
 
         if (cursor.moveToNext()) {
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
@@ -194,6 +200,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return product;
     }
 
+    /**
+     * Checks if product exist in database before adding new one
+     * @param product p
+     * @return true if exist
+     */
     public boolean checkIfExistInDB(Product product) {
         try {
             createDatabase();
