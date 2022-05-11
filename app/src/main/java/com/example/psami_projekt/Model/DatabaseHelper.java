@@ -105,30 +105,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, null, null, null, null, null, String.valueOf(START_PRODUCTS_LIMIT));
-        while (cursor.moveToNext()) {
-            Product product = new Product();
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
-            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
-            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
-            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
-            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
-            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
-            product.setProtein(protein);
-            product.setFat(fat);
-            product.setCarbs(carbs);
-
-            // calculate kcal because there is none in DB
-            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
-            product.setKcal(kcal);
-
-            products.add(product);
-        }
-        cursor.close();
+        ArrayList<Product> products = setProductFields(cursor);
         db.close();
         return products;
     }
@@ -141,30 +121,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Product> getProductsByName(String name) {
 
-        ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[]{"%" + name + "%"}, null, null, null, String.valueOf(SEARCH_PRODUCTS_LIMIT));
-        while (cursor.moveToNext()) {
-            Product product = new Product();
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
-            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
-            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
-            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
-            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
-            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
-            product.setProtein(protein);
-            product.setFat(fat);
-            product.setCarbs(carbs);
-
-            // calculate kcal because there is none in DB
-            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
-            product.setKcal(kcal);
-
-            products.add(product);
-        }
-        cursor.close();
+        ArrayList<Product> products = setProductFields(cursor);
         db.close();
         return products;
     }
@@ -176,33 +136,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return product
      */
     public Product getProductById(int id) {
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food where rowid = ?", new String[]{String.valueOf(id)});
-        Product product = new Product();
 
-        if (cursor.moveToNext()) {
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
-            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
-            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
-
-            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
-            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
-            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
-            product.setProtein(protein);
-            product.setFat(fat);
-            product.setCarbs(carbs);
-
-            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
-            product.setKcal(kcal);
-        }
-        cursor.close();
+        Product product = setProductFields(cursor).get(0);
         db.close();
         return product;
     }
 
+    /**
+     * Sets product fields by sql query and return Array of products
+     * @param cursor contains sql query
+     * @return Array of products that match cursor query
+     */
     private ArrayList<Product> setProductFields(Cursor cursor) {
-
         ArrayList<Product> products = new ArrayList<>();
         while (cursor.moveToNext()) {
             Product product = new Product();
@@ -234,7 +181,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true if exist
      */
     public boolean checkIfExistInDB(Product product) {
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[]{product.getName(), product.getDescription()});
 
@@ -289,7 +235,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true if number of deleted rows is greater than 0
      */
     public boolean deleteProduct(int id) {
-
         SQLiteDatabase db = this.getWritableDatabase();
         // Cursor cursor = db.rawQuery("DELETE FROM food WHERE rowid = ?", new String[] {String.valueOf(id)});
         int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
