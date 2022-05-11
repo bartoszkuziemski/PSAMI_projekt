@@ -18,28 +18,31 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static SQLiteDatabase myDataBase;
-    private final Context myContext;
+    private SQLiteDatabase myDatabase;
+    private final Context context;
     private static final String DATABASE_NAME = "food.db";
     public static final String DATABASE_PATH = "/data/user/0/com.example.psami_projekt/databases/";
     public static final int DATABASE_VERSION = 1;
     public static final String FOOD_TABLE_NAME = "food";
+    public static final int START_PRODUCTS_LIMIT = 30;
+    public static final int SEARCH_PRODUCTS_LIMIT = 20;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.myContext = context;
+        this.context = context;
     }
 
     /**
      * Check if database already exist or not
+     *
      * @return true if exist
      */
     private boolean checkDataBase() {
         boolean checkDB;
         try {
             final String myPath = DATABASE_PATH + DATABASE_NAME;
-            final File dbfile = new File(myPath);
-            checkDB = dbfile.exists();
+            final File dbFile = new File(myPath);
+            checkDB = dbFile.exists();
         } catch (SQLiteException e) {
             e.printStackTrace();
             return false;
@@ -48,12 +51,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Copies database from local assets-folder to the just created empty database in the system folder
+     * Copy database from local assets-folder to the just created empty database in the system folder
+     *
      * @throws IOException e
      */
     private void copyDataBase() throws IOException {
         try {
-            InputStream mInput = myContext.getAssets().open(DATABASE_NAME);
+            InputStream mInput = context.getAssets().open(DATABASE_NAME);
             String outFileName = DATABASE_PATH + DATABASE_NAME;
             OutputStream mOutput = new FileOutputStream(outFileName);
             byte[] mBuffer = new byte[1024];
@@ -69,9 +73,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Create database by copying one from local assets folder if none exist
+     *
+     * @throws IOException e
+     */
     public void createDatabase() throws IOException {
-        boolean dbExist1 = checkDataBase();
-        if (!dbExist1) {
+        boolean dbExist = checkDataBase();
+        if (!dbExist) {
             this.getReadableDatabase();
             this.close();
             try {
@@ -84,20 +93,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void openDatabase() throws SQLException {
-        String myPath = DATABASE_PATH + DATABASE_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
-    }
-
-    public synchronized void closeDataBase() throws SQLException {
-        if (myDataBase != null)
-            myDataBase.close();
-        SQLiteDatabase.releaseMemory();
-        super.close();
-    }
-
     /**
      * Init some products at the beginning
+     *
      * @return Array of products
      */
     public ArrayList<Product> initStartingProducts() {
@@ -110,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food limit 20;", null);
+        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, null, null, null, null, null, String.valueOf(START_PRODUCTS_LIMIT));
         while (cursor.moveToNext()) {
             Product product = new Product();
             product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
@@ -135,17 +133,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
+    /**
+     * Get products in searchActivity after typing in search bar
+     *
+     * @param name search bar product name
+     * @return products that contain name
+     */
     public ArrayList<Product> getProductsByName(String name) {
-        try {
-            createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query("food", new String[] {"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[] {"%" + name + "%"}, null, null, null, "20");
+        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[]{"%" + name + "%"}, null, null, null, String.valueOf(SEARCH_PRODUCTS_LIMIT));
         while (cursor.moveToNext()) {
             Product product = new Product();
             product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
@@ -170,15 +169,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
+    /**
+     * Get product which was clicked by id to show in ProductActivity, used in Adapter
+     *
+     * @param id row id
+     * @return product
+     */
     public Product getProductById(int id) {
-        try {
-            createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food where rowid = ?" , new String[] {String.valueOf(id)});
+        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food where rowid = ?", new String[]{String.valueOf(id)});
         Product product = new Product();
 
         if (cursor.moveToNext()) {
@@ -201,22 +201,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return product;
     }
 
+    private ArrayList<Product> setProductFields(Cursor cursor) {
+
+        ArrayList<Product> products = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Product product = new Product();
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
+            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
+            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
+
+            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
+            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
+            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
+            product.setProtein(protein);
+            product.setFat(fat);
+            product.setCarbs(carbs);
+
+            // calculate kcal because there is none in DB
+            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
+            product.setKcal(kcal);
+
+            products.add(product);
+        }
+        cursor.close();
+        return products;
+    }
+
     /**
      * Checks if product exist in database before adding new one
+     *
      * @param product p
      * @return true if exist
      */
     public boolean checkIfExistInDB(Product product) {
-        try {
-            createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[] {product.getName(), product.getDescription()});
+        Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[]{product.getName(), product.getDescription()});
 
-        if (cursor.getCount()>0) {
+        if (cursor.getCount() > 0) {
             cursor.close();
             db.close();
             return true;
@@ -227,8 +249,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Add product to database, first check if already exist
+     *
+     * @param product p
+     * @return true if added successfully
+     */
     public boolean addProduct(Product product) {
-        if (checkIfExistInDB(product)){
+        if (checkIfExistInDB(product)) {
             return false;
         }
 
@@ -247,7 +275,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("DataCarbohydrate", carbs);
         long result = db.insert("food", null, values);
         db.close();
-        if (result<0) {
+        if (result < 0) {
             return false;
         } else {
             return true;
@@ -255,19 +283,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * delete product from database
-     * @param id rowid
+     * Delete product from database
+     *
+     * @param id row id
      * @return true if number of deleted rows is greater than 0
      */
     public boolean deleteProduct(int id) {
-        try {
-            createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         // Cursor cursor = db.rawQuery("DELETE FROM food WHERE rowid = ?", new String[] {String.valueOf(id)});
-        int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[] {String.valueOf(id)});
+        int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
         db.close();
         return deletedRows > 0;
     }
