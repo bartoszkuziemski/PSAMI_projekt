@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @throws IOException e
      */
-    public void createDatabase() throws IOException {
+    private void createDatabase() throws IOException {
         boolean dbExist = checkDataBase();
         if (!dbExist) {
             this.getReadableDatabase();
@@ -180,7 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param product p
      * @return true if exist
      */
-    public boolean checkIfExistInDB(Product product) {
+    private boolean checkIfExistInDB(Product product) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[]{product.getName(), product.getDescription()});
 

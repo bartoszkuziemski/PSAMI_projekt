@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
-import com.example.psami_projekt.Model.Utils;
+import com.example.psami_projekt.Model.MealDatabaseHelper;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
 
@@ -33,8 +33,9 @@ public class MainFragment extends Fragment {
         mealAdapter = new MealAdapter(getContext());
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //// TODO: 25.04.2022 adapter.setMeals , ViewModel
-        ArrayList<Meal> meals = Utils.getMeals();
+        //// TODO: 25.04.2022 adapter.getMeals , ViewModel
+        MealDatabaseHelper.initMeals();
+        ArrayList<Meal> meals = MealDatabaseHelper.getMeals();
         if (meals != null) {
             mealAdapter.setMeals(meals);
         }
