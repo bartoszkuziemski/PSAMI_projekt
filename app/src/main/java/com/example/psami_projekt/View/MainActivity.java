@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -36,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.mealPlan:
                         Toast.makeText(MainActivity.this, "meal plan clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.calendar:
+                        Toast.makeText(MainActivity.this, "calendar clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.recipes:
 

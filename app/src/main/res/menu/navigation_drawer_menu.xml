@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_meal_plan"/>
 
     <item
+        android:title="Calendar"
+        android:id="@+id/calendar"
+        android:icon="@drawable/ic_calendar"/>
+
+    <item
         android:title="Recipes"
         android:id="@+id/recipes"
         android:icon="@drawable/ic_recipes"/>
