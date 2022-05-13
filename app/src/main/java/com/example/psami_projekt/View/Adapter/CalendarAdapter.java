@@ -15,18 +15,10 @@ import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
-    private ArrayList<String> daysOfMonth;
-    private CalendarClickListener calendarClickListener;
+    private ArrayList<String> days = new ArrayList<>();
     private Context context;
 
-//    public CalendarAdapter(ArrayList<String> daysOfMonth, CalendarClickListener calendarClickListener) {
-//        this.daysOfMonth = daysOfMonth;
-//        this.calendarClickListener = calendarClickListener;
-//    }
-
-
-    public CalendarAdapter(ArrayList<String> daysOfMonth, Context context) {
-        this.daysOfMonth = daysOfMonth;
+    public CalendarAdapter(Context context) {
         this.context = context;
     }
 
@@ -35,38 +27,31 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_day, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.1666666666);
+        layoutParams.height = (int) (parent.getHeight() * 0.16666666);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtCalendarDay.setText(daysOfMonth.get(position));
-        //holder.txtCalendarDay.setText("1");
+        holder.txtDay.setText(days.get(position));
+    }
+
+    public void setDays(ArrayList<String> days) {
+        this.days = days;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-    }
-
-//    public void setDaysOfMonth(ArrayList<String> daysOfMonth) {
-//        this.daysOfMonth=daysOfMonth;
-//        notifyDataSetChanged();
-//    }
-
-    public interface CalendarClickListener {
-        void onItemClick(int position, String txtDay);
+        return days.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView txtCalendarDay;
+        private TextView txtDay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtCalendarDay = itemView.findViewById(R.id.calendarDay);
+            txtDay = itemView.findViewById(R.id.calendarCell);
         }
     }
-
 }

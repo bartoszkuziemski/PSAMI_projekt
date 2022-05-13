@@ -2,14 +2,19 @@ package com.example.psami_projekt.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.psami_projekt.Model.Meal;
+import com.example.psami_projekt.Model.MealDatabaseHelper;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.CalendarAdapter;
+import com.example.psami_projekt.View.Adapter.MealAdapter;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -24,6 +29,9 @@ public class CalendarActivity extends AppCompatActivity {
     private ImageButton btnPreviousMonth, btnNextMonth;
     LocalDate currentDate;
 
+    private MealAdapter mealAdapter;
+    private RecyclerView mealRecView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +40,42 @@ public class CalendarActivity extends AppCompatActivity {
         currentDate = LocalDate.now();
         initViews();
         initRecyclerView();
-
         setMonthDays();
-        //calendarAdapter.setDaysOfMonth(getDaysInMonth(currentDate));
+
+        ArrayList<String> days = getDaysInMonth(currentDate);
+        if (days != null) {
+            calendarAdapter.setDays(days);
+        }
+
+        btnNextMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextMonth();
+            }
+        });
+        btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                previousMonth();
+            }
+        });
+
     }
 
     private void setMonthDays() {
         txtMonthAndYear.setText(getMonthAndYear(currentDate));
+    }
+
+    private void nextMonth() {
+        currentDate = currentDate.plusMonths(1);
+        calendarAdapter.setDays(getDaysInMonth(currentDate));
+        setMonthDays();
+    }
+
+    private void previousMonth() {
+        currentDate = currentDate.minusMonths(1);
+        calendarAdapter.setDays(getDaysInMonth(currentDate));
+        setMonthDays();
     }
 
     private ArrayList<String> getDaysInMonth(LocalDate date) {
@@ -50,10 +87,10 @@ public class CalendarActivity extends AppCompatActivity {
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
         for (int i = 1; i <= 42; i++) {
-            if (i <= dayOfWeek || i > numberOfDays + dayOfWeek) {
+            if (i < dayOfWeek || i >= (numberOfDays + dayOfWeek)) {
                 daysInMonth.add("");
             } else {
-                daysInMonth.add(String.valueOf(i - dayOfWeek));
+                daysInMonth.add(String.valueOf(i - dayOfWeek + 1));
             }
         }
         return daysInMonth;
@@ -65,7 +102,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        calendarAdapter = new CalendarAdapter(getDaysInMonth(currentDate), this);
+        calendarAdapter = new CalendarAdapter(this);
         calendarRecView.setAdapter(calendarAdapter);
         calendarRecView.setLayoutManager(new GridLayoutManager(this, 7));
     }
