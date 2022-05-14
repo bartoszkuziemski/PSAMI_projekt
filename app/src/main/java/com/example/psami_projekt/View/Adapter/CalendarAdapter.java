@@ -2,23 +2,28 @@ package com.example.psami_projekt.View.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.CalendarActivity;
 import com.example.psami_projekt.View.MainActivity;
+import com.google.gson.Gson;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
-    private ArrayList<String> days = new ArrayList<>();
+    private ArrayList<LocalDate> days = new ArrayList<>();
     private Context context;
 
     public CalendarAdapter(Context context) {
@@ -37,18 +42,21 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtDay.setText(days.get(position));
+        holder.txtDay.setText(String.valueOf(days.get(position).getDayOfMonth()));
+        if (!days.get(20).getMonth().equals(days.get(position).getMonth())) {
+            holder.txtDay.setTextColor(ContextCompat.getColor(context, R.color.calendar_gray));
+        }
         holder.txtDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(CalendarActivity.DAY_ID_KEY, days.get(holder.getAbsoluteAdapterPosition()));
+                intent.putExtra(CalendarActivity.DAY_ID_KEY, days.get(holder.getAbsoluteAdapterPosition()).toString());
                 context.startActivity(intent);
             }
         });
     }
 
-    public void setDays(ArrayList<String> days) {
+    public void setDays(ArrayList<LocalDate> days) {
         this.days = days;
         notifyDataSetChanged();
     }

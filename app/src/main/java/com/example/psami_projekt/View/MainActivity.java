@@ -12,18 +12,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
-    private RecyclerView mealRecView;
-    private MealAdapter mealAdapter;
-
     private String dayId;
 
     @Override
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "meal plan clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.calendar:
-                        Toast.makeText(MainActivity.this, "calendar clicked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                         startActivity(intent);
                         break;
@@ -65,11 +64,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Get day id from adapter
+         */
         Intent intent = getIntent();
         if (intent != null) {
-            this.dayId = intent.getStringExtra(CalendarActivity.DAY_ID_KEY);
+            dayId = intent.getStringExtra(CalendarActivity.DAY_ID_KEY);
         }
 
+        /**
+         * Send day id to fragment
+         */
         Bundle bundle = new Bundle();
         bundle.putString(CalendarActivity.DAY_ID_KEY, dayId);
         Fragment fragment = new MainFragment();

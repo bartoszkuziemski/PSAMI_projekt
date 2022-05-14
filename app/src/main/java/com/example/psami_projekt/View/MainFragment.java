@@ -16,13 +16,16 @@ import com.example.psami_projekt.Model.Meal;
 import com.example.psami_projekt.Model.MealDatabaseHelper;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
+import com.google.gson.Gson;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
     private RecyclerView mealRecView;
     private MealAdapter mealAdapter;
+    private String dayId;
 
     @Nullable
     @Override
@@ -32,8 +35,8 @@ public class MainFragment extends Fragment {
         initViews(view);
 
         if (getArguments() != null) {
-            String id = getArguments().getString(CalendarActivity.DAY_ID_KEY);
-            Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+             dayId = getArguments().getString(CalendarActivity.DAY_ID_KEY);
+             Toast.makeText(getActivity(), dayId, Toast.LENGTH_SHORT).show();
         }
 
         mealAdapter = new MealAdapter(getContext());

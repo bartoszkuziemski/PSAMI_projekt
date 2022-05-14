@@ -31,9 +31,6 @@ public class CalendarActivity extends AppCompatActivity {
     private ImageButton btnPreviousMonth, btnNextMonth;
     LocalDate currentDate;
 
-    private MealAdapter mealAdapter;
-    private RecyclerView mealRecView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +42,7 @@ public class CalendarActivity extends AppCompatActivity {
         initRecyclerView();
         setMonthDays();
 
-        ArrayList<String> days = getDaysInMonth(currentDate);
+        ArrayList<LocalDate> days = getDaysInMonth();
         if (days != null) {
             calendarAdapter.setDays(days);
         }
@@ -71,30 +68,26 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void nextMonth() {
         currentDate = currentDate.plusMonths(1);
-        calendarAdapter.setDays(getDaysInMonth(currentDate));
+        calendarAdapter.setDays(getDaysInMonth());
         setMonthDays();
     }
 
     private void previousMonth() {
         currentDate = currentDate.minusMonths(1);
-        calendarAdapter.setDays(getDaysInMonth(currentDate));
+        calendarAdapter.setDays(getDaysInMonth());
         setMonthDays();
     }
 
-    private ArrayList<String> getDaysInMonth(LocalDate date) {
-        ArrayList<String> daysInMonth = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
+    private ArrayList<LocalDate> getDaysInMonth() {
+        ArrayList<LocalDate> daysInMonth = new ArrayList<>();
+        YearMonth yearMonth = YearMonth.from(currentDate);
 
         int numberOfDays = yearMonth.lengthOfMonth();
         LocalDate firstOfMonth = currentDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
         for (int i = 1; i <= 42; i++) {
-            if (i < dayOfWeek || i >= (numberOfDays + dayOfWeek)) {
-                daysInMonth.add("");
-            } else {
-                daysInMonth.add(String.valueOf(i - dayOfWeek + 1));
-            }
+            daysInMonth.add(firstOfMonth.plusDays(-dayOfWeek+i));
         }
         return daysInMonth;
     }
