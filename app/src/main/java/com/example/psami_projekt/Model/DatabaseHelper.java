@@ -3,6 +3,7 @@ package com.example.psami_projekt.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -24,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_PATH = "/data/user/0/com.example.psami_projekt/databases/";
     public static final int DATABASE_VERSION = 1;
     public static final String FOOD_TABLE_NAME = "food";
+    public static final String MEAL_TABLE_NAME = "meal";
     public static final int START_PRODUCTS_LIMIT = 30;
     public static final int SEARCH_PRODUCTS_LIMIT = 20;
 
@@ -240,6 +242,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
         db.close();
         return deletedRows > 0;
+    }
+
+    private void checkMealTableExist() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='meal'",null);
+        if (cursor.getCount() == 0) {
+            try {
+                db.execSQL("CREATE TABLE meal (DayId TEXT, Meal TEXT, ProductId INTEGER);");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean addProductToMeal(int productId, String date, String meal) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        checkMealTableExist();
+
+        ContentValues values = new ContentValues();
+        values.put("ProductId", productId);
+        values.put("DayId", date);
+        values.put("Meal", meal);
+        long result = db.insert(MEAL_TABLE_NAME, null, values);
+        db.close();
+        if (result < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<Product> getProductsFromMeal(String date, String meal) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select food.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food inner join meal on food.rowid=meal.ProductId ;", null);
+        ArrayList<Product> products = setProductFields(cursor);
+        db.close();
+        return products;
     }
 
     @Override

@@ -48,6 +48,19 @@ public class ProductsViewModel extends ViewModel {
         return false;
     }
 
+    public ArrayList<Product> getProductsFromMeal(String date, String meal) {
+        ArrayList<Product> products = new ArrayList<>();
+        products = databaseHelper.getProductsFromMeal(date, meal);
+        return products;
+    }
+
+    public boolean addProductToMeal(int productId, String date, String meal) {
+        if (productId > 0 && date != "" && meal != "") {
+            return databaseHelper.addProductToMeal(productId, date, meal);
+        }
+        return false;
+    }
+
     public boolean deleteFromDatabase(int id) {
         return databaseHelper.deleteProduct(id);
     }

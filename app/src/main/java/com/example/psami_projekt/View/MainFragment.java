@@ -27,6 +27,8 @@ public class MainFragment extends Fragment {
     private MealAdapter mealAdapter;
     private String dayId;
 
+    private MealDatabaseHelper databaseHelper;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class MainFragment extends Fragment {
         if (meals != null) {
             mealAdapter.setMeals(meals);
         }
+
+
 
         return view;
     }

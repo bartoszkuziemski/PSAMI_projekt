@@ -15,16 +15,19 @@ import android.widget.Toast;
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private String dayId;
+    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             dayId = intent.getStringExtra(CalendarActivity.DAY_ID_KEY);
         }
+
+        //productsViewModel.addProductToMeal(11, "2022-05-14", "Lunch");
+
+        ArrayList<Product> products = productsViewModel.getProductsFromMeal("aaa", "bbb");
 
         /**
          * Send day id to fragment
