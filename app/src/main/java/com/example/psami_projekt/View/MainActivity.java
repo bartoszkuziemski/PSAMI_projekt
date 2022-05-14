@@ -3,6 +3,7 @@ package com.example.psami_projekt.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mealRecView;
     private MealAdapter mealAdapter;
+
+    private String dayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +65,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            this.dayId = intent.getStringExtra(CalendarActivity.DAY_ID_KEY);
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString(CalendarActivity.DAY_ID_KEY, dayId);
+        Fragment fragment = new MainFragment();
+        fragment.setArguments(bundle);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFrameLayout, new MainFragment());
+        transaction.replace(R.id.mainFrameLayout, fragment);
         transaction.commit();
     }
 
@@ -71,4 +84,5 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
     }
+
 }
