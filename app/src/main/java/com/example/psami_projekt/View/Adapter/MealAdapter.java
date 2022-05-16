@@ -70,6 +70,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         private TextView txtMealName, txtMealKcal;
         private FloatingActionButton fabAddMeal;
         private ConstraintLayout parent;
+        private RecyclerView productRecView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +78,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             txtMealKcal = itemView.findViewById(R.id.txtMealKcal);
             fabAddMeal = itemView.findViewById(R.id.fabAddProduct);
             parent = itemView.findViewById(R.id.mealListLayoutParent);
+            productRecView = itemView.findViewById(R.id.productsInMealRecView);
+
         }
     }
 }

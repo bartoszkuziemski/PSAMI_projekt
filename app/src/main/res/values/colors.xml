@@ -11,4 +11,5 @@
     <color name="red">#E91E63</color>
     <color name="gray">#888</color>
     <color name="calendar_gray">#BABABA</color>
+    <color name="product_gray">#F4F4F4</color>
 </resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@color/product_gray">
+
+    <TextView
+        android:id="@+id/txtProductInMealName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product name"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="3dp"/>
+
+    <TextView
+        android:id="@+id/txtProductInMealKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="100"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtProductGramsInMeal" />
+
+    <TextView
+        android:id="@+id/textViewProductInMealKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="kcal"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProductInMealKcal"
+        app:layout_constraintStart_toEndOf="@+id/txtProductInMealKcal"
+        app:layout_constraintTop_toTopOf="@id/txtProductInMealKcal" />
+
+    <TextView
+        android:id="@+id/txtProductInMealProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="5.1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewProductInMealKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewProductInMealKcal" />
+
+    <TextView
+        android:id="@+id/txtProductInMealFat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="6.2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProductInMealProtein"
+        app:layout_constraintStart_toEndOf="@+id/txtProductInMealProtein"
+        app:layout_constraintTop_toTopOf="@+id/txtProductInMealProtein" />
+
+    <TextView
+        android:id="@+id/txtProductInMealCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="7.3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProductInMealFat"
+        app:layout_constraintStart_toEndOf="@+id/txtProductInMealFat"
+        app:layout_constraintTop_toTopOf="@+id/txtProductInMealFat" />
+
+    <ImageButton
+        android:id="@+id/btnDeleteFromMeal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_x"
+        android:backgroundTint="@color/product_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtProductGramsInMeal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="25"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductInMealName" />
+
+    <TextView
+        android:id="@+id/txtGrams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="g"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/txtProductGramsInMeal"
+        app:layout_constraintTop_toTopOf="@id/txtProductGramsInMeal"
+        app:layout_constraintBottom_toBottomOf="@id/txtProductGramsInMeal"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
