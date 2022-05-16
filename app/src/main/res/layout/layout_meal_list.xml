@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Meal name"
         android:textStyle="bold"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,9 +23,53 @@
         android:id="@+id/txtMealKcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="100"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtMealName" />
+
+    <TextView
+        android:id="@+id/textViewKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="kcal"
-        app:layout_constraintTop_toBottomOf="@id/txtMealName"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMealKcal"
+        app:layout_constraintStart_toEndOf="@+id/txtMealKcal"
+        app:layout_constraintTop_toTopOf="@id/txtMealKcal" />
+
+    <TextView
+        android:id="@+id/txtMealProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="5.1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewKcal" />
+
+    <TextView
+        android:id="@+id/txtMealFat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="6.2"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMealProtein"
+        app:layout_constraintStart_toEndOf="@+id/txtMealProtein"
+        app:layout_constraintTop_toTopOf="@+id/txtMealProtein" />
+
+    <TextView
+        android:id="@+id/txtMealCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="7.3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMealFat"
+        app:layout_constraintStart_toEndOf="@+id/txtMealFat"
+        app:layout_constraintTop_toTopOf="@+id/txtMealFat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddProduct"
@@ -37,6 +82,5 @@
         android:src="@drawable/ic_add_white"
         android:tint="@color/white"
         android:layout_marginRight="5dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
