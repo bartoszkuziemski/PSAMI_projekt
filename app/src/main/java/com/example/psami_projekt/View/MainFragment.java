@@ -12,10 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Meal;
 import com.example.psami_projekt.Model.MealDatabaseHelper;
+import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
+import com.example.psami_projekt.View.Adapter.ProductInMealAdapter;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.gson.Gson;
 
 import java.time.LocalDate;
@@ -29,6 +33,11 @@ public class MainFragment extends Fragment {
 
     private MealDatabaseHelper databaseHelper;
 
+    // tests
+    private ProductInMealAdapter adapter;
+    private RecyclerView recyclerView;
+    private ProductsViewModel productsViewModel = new ProductsViewModel(getContext());
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,17 +50,23 @@ public class MainFragment extends Fragment {
              Toast.makeText(getActivity(), dayId, Toast.LENGTH_SHORT).show();
         }
 
+        mealRecView = view.findViewById(R.id.mealRecView);
         mealAdapter = new MealAdapter(getContext());
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //// TODO: 25.04.2022 adapter.getMeals , ViewModel
         MealDatabaseHelper.initMeals();
         ArrayList<Meal> meals = MealDatabaseHelper.getMeals();
         if (meals != null) {
             mealAdapter.setMeals(meals);
         }
 
-
+        // tests
+//        recyclerView = view.findViewById(R.id.mealRecView);
+//        adapter = new ProductInMealAdapter(getContext());
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        ArrayList<Product> products = productsViewModel.getStaringProducts();
+//        adapter.setProducts(products);
 
 
 
@@ -59,6 +74,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        mealRecView = view.findViewById(R.id.mealRecView);
+
+        // tests
     }
 }
