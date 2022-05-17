@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="@color/product_gray">
+    android:background="@color/product_gray"
+    android:layout_marginTop="2dp">
 
     <TextView
         android:id="@+id/txtProductInMealName"
