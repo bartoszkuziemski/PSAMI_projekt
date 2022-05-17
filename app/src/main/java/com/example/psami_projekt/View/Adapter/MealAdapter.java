@@ -10,11 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
+import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.SearchActivity;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     private ArrayList<Meal> meals = new ArrayList<>();
     private Context context;
+    private ProductInMealAdapter productInMealAdapter;
+    private ProductsViewModel productsViewModel;
 
     public MealAdapter(Context context) {
         this.context = context;
@@ -53,6 +58,14 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
                 Toast.makeText(context, "Meal clicked", Toast.LENGTH_SHORT).show();
             }
         });
+
+        productInMealAdapter = new ProductInMealAdapter(context);
+        holder.productRecView.setAdapter(productInMealAdapter);
+        holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
+        productsViewModel = new ProductsViewModel(context);
+        ArrayList<Product> products = productsViewModel.getStaringProducts();
+        productInMealAdapter.setProducts(products);
+
     }
 
     public void setMeals(ArrayList<Meal> meals) {
@@ -79,7 +92,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             fabAddMeal = itemView.findViewById(R.id.fabAddProduct);
             parent = itemView.findViewById(R.id.mealListLayoutParent);
             productRecView = itemView.findViewById(R.id.productsInMealRecView);
-
         }
     }
 }

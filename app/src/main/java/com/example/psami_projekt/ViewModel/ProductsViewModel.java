@@ -13,15 +13,9 @@ import java.util.ArrayList;
 public class ProductsViewModel extends ViewModel {
 
     private DatabaseHelper databaseHelper;
-    private Context context;
 
     public ProductsViewModel(Context context) {
-        this.context = context;
         this.databaseHelper = new DatabaseHelper(context);
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public ArrayList<Product> getStaringProducts() {

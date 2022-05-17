@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
        // ArrayList<Product> products = productsViewModel.getProductsFromMeal("aaa", "bbb");
 
-        ArrayList<Product> testProducts = productsViewModel.getStaringProducts();
+       // ArrayList<Product> testProducts = productsViewModel.getStaringProducts();
 
     }
 

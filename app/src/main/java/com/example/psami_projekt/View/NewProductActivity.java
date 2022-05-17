@@ -20,7 +20,6 @@ public class NewProductActivity extends AppCompatActivity {
     private TextView txtAlert;
     private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
