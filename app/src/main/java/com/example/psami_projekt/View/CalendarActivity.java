@@ -1,9 +1,7 @@
 package com.example.psami_projekt.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -11,11 +9,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.psami_projekt.Model.Meal;
-import com.example.psami_projekt.Model.MealDatabaseHelper;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.CalendarAdapter;
-import com.example.psami_projekt.View.Adapter.MealAdapter;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

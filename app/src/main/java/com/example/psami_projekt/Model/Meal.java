@@ -8,6 +8,7 @@ public class Meal {
     private Integer kcal;
     private Double proteins, fats, carbs;
     ArrayList<Product> products;
+    private static ArrayList<Meal> meals;
 
     public Meal(String name) {
         this(name, 0, 0.0, 0.0, 0.0);
@@ -19,6 +20,21 @@ public class Meal {
         this.proteins = proteins;
         this.fats = fats;
         this.carbs = carbs;
+    }
+
+    public static void initMeals() {
+        if (meals == null) {
+            meals = new ArrayList<>();
+            meals.add(new Meal("Breakfast"));
+            meals.add(new Meal("Lunch"));
+            meals.add(new Meal("Dinner"));
+            meals.add(new Meal("Snack"));
+            meals.add(new Meal("Supper"));
+        }
+    }
+
+    public static ArrayList<Meal> getMeals() {
+        return meals;
     }
 
     public String getName() {
