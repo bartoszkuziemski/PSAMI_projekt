@@ -2,7 +2,6 @@ package com.example.psami_projekt.View.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.CalendarActivity;
 import com.example.psami_projekt.View.MainActivity;
-import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,7 +47,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(CalendarActivity.DAY_ID_KEY, days.get(holder.getAbsoluteAdapterPosition()).toString());
+                intent.putExtra(CalendarActivity.DATE_ID_KEY, days.get(holder.getAbsoluteAdapterPosition()).toString());
                 context.startActivity(intent);
             }
         });

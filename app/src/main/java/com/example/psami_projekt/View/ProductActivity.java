@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -50,6 +51,21 @@ public class ProductActivity extends AppCompatActivity {
                 }
             }
         }
+
+
+        fabAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProductActivity.this, "add to meal", Toast.LENGTH_SHORT).show();
+                // // TODO: 25.05.2022 secure that grams are not 0 or empty
+                if (editTextHowManyGrams.getText().toString().equals("")) {
+                    // warn
+                } else {
+                    Integer grams = Integer.valueOf(editTextHowManyGrams.getText().toString());
+                    productsViewModel.addProductToMeal(Utils.getDate(), Utils.getMeal(), ProductActivity.this.id, grams);
+                }
+            }
+        });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    public static final String DAY_ID_KEY = "dayId";
+    public static final String DATE_ID_KEY = "dateId";
     private RecyclerView calendarRecView;
     private CalendarAdapter calendarAdapter;
     private TextView txtMonthAndYear;

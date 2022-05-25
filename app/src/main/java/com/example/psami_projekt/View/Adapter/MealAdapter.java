@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.SearchActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
@@ -47,6 +48,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         holder.fabAddMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.setMeal(meals.get(holder.getAbsoluteAdapterPosition()).getName());
                 Intent intent = new Intent(context, SearchActivity.class);
                 context.startActivity(intent);
             }
@@ -59,12 +61,13 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             }
         });
 
-        productInMealAdapter = new ProductInMealAdapter(context);
-        holder.productRecView.setAdapter(productInMealAdapter);
-        holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
-        productsViewModel = new ProductsViewModel(context);
-        ArrayList<Product> products = productsViewModel.getStaringProducts();
-        productInMealAdapter.setProducts(products);
+        // tests
+//        productInMealAdapter = new ProductInMealAdapter(context);
+//        holder.productRecView.setAdapter(productInMealAdapter);
+//        holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
+//        productsViewModel = new ProductsViewModel(context);
+//        ArrayList<Product> products = productsViewModel.getStaringProducts();
+//        productInMealAdapter.setProducts(products);
 
     }
 

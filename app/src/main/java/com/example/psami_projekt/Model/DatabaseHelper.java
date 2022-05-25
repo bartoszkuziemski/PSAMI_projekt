@@ -249,23 +249,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='meal'",null);
         if (cursor.getCount() == 0) {
             try {
-                db.execSQL("CREATE TABLE meal (DayId TEXT, Meal TEXT, ProductId INTEGER);");
+                db.execSQL("CREATE TABLE meal (DateId TEXT, Meal TEXT, ProductId INTEGER, Grams INTEGER);");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public boolean addProductToMeal(int productId, String date, String meal) {
+    public boolean addProductToMeal(String date, String meal, int productId, int grams) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         checkMealTableExist();
 
         ContentValues values = new ContentValues();
-        values.put("ProductId", productId);
-        values.put("DayId", date);
+        values.put("DateId", date);
         values.put("Meal", meal);
+        values.put("ProductId", productId);
+        values.put("Grams", grams);
         long result = db.insert(MEAL_TABLE_NAME, null, values);
         db.close();
         if (result < 0) {

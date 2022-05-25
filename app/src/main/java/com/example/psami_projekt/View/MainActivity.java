@@ -12,20 +12,21 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.psami_projekt.Model.Meal;
-import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
 import com.example.psami_projekt.View.Adapter.ProductInMealAdapter;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private String dayId;
+    private String date;
     private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     private RecyclerView mealRecView;
@@ -41,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
+
+        /**
+         * Get day id from adapter
+         */
+        Intent intent = getIntent();
+        if (intent.getStringExtra(CalendarActivity.DATE_ID_KEY) != null) {
+            date = intent.getStringExtra(CalendarActivity.DATE_ID_KEY);
+        } else {
+            date = LocalDate.now().toString();
+        }
+
+        Utils.setDate(date);
 
         mealRecView = findViewById(R.id.mealRecView);
         mealAdapter = new MealAdapter(this);
@@ -91,13 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * Get day id from adapter
-         */
-        Intent intent = getIntent();
-        if (intent != null) {
-            dayId = intent.getStringExtra(CalendarActivity.DAY_ID_KEY);
-        }
+
 
         //productsViewModel.addProductToMeal(11, "2022-05-14", "Lunch");
 
