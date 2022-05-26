@@ -57,12 +57,13 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(ProductActivity.this, "add to meal", Toast.LENGTH_SHORT).show();
-                // // TODO: 25.05.2022 secure that grams are not 0 or empty
                 if (editTextHowManyGrams.getText().toString().equals("")) {
-                    // warn
+                    // TODO: 26.05.2022 warn user
                 } else {
                     Integer grams = Integer.valueOf(editTextHowManyGrams.getText().toString());
                     productsViewModel.addProductToMeal(Utils.getDate(), Utils.getMeal(), ProductActivity.this.id, grams);
+                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainIntent);
                 }
             }
         });

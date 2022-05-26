@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import com.example.psami_projekt.View.Adapter.ProductInMealAdapter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -276,12 +278,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Product> getProductsFromMeal(String date, String meal) {
+    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select food.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food inner join meal on food.rowid=meal.ProductId ;", null);
-        ArrayList<Product> products = setProductFields(cursor);
+        Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
+        ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
         return products;
+    }
+
+    private ArrayList<ProductInMeal> setProductInMealFields(Cursor cursor) {
+        ArrayList<ProductInMeal> products = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            ProductInMeal product = new ProductInMeal();
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
+            product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
+            product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
+            int grams = cursor.getInt(cursor.getColumnIndexOrThrow("Grams"));
+            double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein")) * grams / 100;
+            double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid")) * grams / 100;
+            double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate")) * grams / 100;
+            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
+            product.setProtein(protein);
+            product.setFat(fat);
+            product.setCarbs(carbs);
+            product.setGrams(grams);
+            product.setKcal(kcal);
+
+            products.add(product);
+        }
+        cursor.close();
+        return products;
+    }
+
+    public boolean deleteProductFromMeal(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int deletedRows = db.delete(MEAL_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return deletedRows > 0;
     }
 
     @Override
@@ -293,5 +326,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+
+
 }
 

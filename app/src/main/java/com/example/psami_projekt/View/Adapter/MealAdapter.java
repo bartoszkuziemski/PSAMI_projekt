@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.SearchActivity;
@@ -62,12 +63,17 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         });
 
         // tests
-//        productInMealAdapter = new ProductInMealAdapter(context);
-//        holder.productRecView.setAdapter(productInMealAdapter);
-//        holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
-//        productsViewModel = new ProductsViewModel(context);
-//        ArrayList<Product> products = productsViewModel.getStaringProducts();
-//        productInMealAdapter.setProducts(products);
+//        switch (meals.get(holder.getAbsoluteAdapterPosition()).getName()) {
+//            case "Breakfast":
+//                ArrayList<Product> products = productsViewModel.getProductsFromMeal(Utils.getDate(), );
+//                productInMealAdapter.setProducts(products);
+//        }
+        productInMealAdapter = new ProductInMealAdapter(context);
+        holder.productRecView.setAdapter(productInMealAdapter);
+        holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
+        productsViewModel = new ProductsViewModel(context);
+        ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
+        productInMealAdapter.setProducts(products);
 
     }
 

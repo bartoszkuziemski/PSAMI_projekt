@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.View.ProductActivity;
 
 import java.util.ArrayList;
@@ -43,8 +44,12 @@ public class ProductsViewModel extends ViewModel {
         return false;
     }
 
-    public ArrayList<Product> getProductsFromMeal(String date, String meal) {
-        ArrayList<Product> products = new ArrayList<>();
+    public boolean deleteFromDatabase(int id) {
+        return databaseHelper.deleteProduct(id);
+    }
+
+    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
+        ArrayList<ProductInMeal> products = new ArrayList<>();
         products = databaseHelper.getProductsFromMeal(date, meal);
         return products;
     }
@@ -56,8 +61,7 @@ public class ProductsViewModel extends ViewModel {
         return false;
     }
 
-    public boolean deleteFromDatabase(int id) {
-        return databaseHelper.deleteProduct(id);
+    public boolean deleteProductFromMeal(int id) {
+        return databaseHelper.deleteProductFromMeal(id);
     }
-
 }

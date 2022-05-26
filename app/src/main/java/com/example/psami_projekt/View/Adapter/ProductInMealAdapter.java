@@ -7,23 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.MainActivity;
+import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdapter.ViewHolder> {
 
-    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<ProductInMeal> products = new ArrayList<>();
     private Context context;
+    private ProductsViewModel productsViewModel;
 
     public ProductInMealAdapter(Context context) {
         this.context = context;
+        this.productsViewModel = new ProductsViewModel(context);
     }
 
     @NonNull
@@ -37,12 +44,36 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtProductName.setText(products.get(position).getName());
         holder.txtKcal.setText(String.valueOf(products.get(position).getKcal()));
-        holder.txtProtein.setText(String.valueOf(products.get(position).getProtein()));
-        holder.txtFat.setText(String.valueOf(products.get(position).getFat()));
-        holder.txtCarbs.setText(String.valueOf(products.get(position).getCarbs()));
+        String protein = String.format("%.02f", products.get(position).getProtein());
+        String fat = String.format("%.02f", products.get(position).getFat());
+        String carbs = String.format("%.02f", products.get(position).getCarbs());
+        holder.txtProtein.setText(protein);
+        holder.txtFat.setText(fat);
+        holder.txtCarbs.setText(carbs);
+        holder.txtGrams.setText(String.valueOf(products.get(position).getGrams()));
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()).getId())) {
+                    Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                    notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                } else {
+                    Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(ArrayList<ProductInMeal> products) {
+//        ArrayList<ProductInMeal> fixedProducts = new ArrayList<>();
+//        for (ProductInMeal p : products) {
+//            double protein = p.getProtein();
+//            double fat = p.getFat();
+//            double carbs = p.getCarbs();
+//            protein.
+//        }
         this.products = products;
         notifyDataSetChanged();
     }
