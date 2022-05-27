@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.Model.ProductInMeal;
+import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.MainActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
@@ -28,9 +29,14 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
     private Context context;
     private ProductsViewModel productsViewModel;
 
-    public ProductInMealAdapter(Context context) {
+    public interface RemoveProductFromMeal {
+        void onRemoveProduct(ProductInMeal product);
+    }
+    private RemoveProductFromMeal removeProductFromMeal;
+
+    public ProductInMealAdapter(Context context, ProductsViewModel productsViewModel) {
         this.context = context;
-        this.productsViewModel = new ProductsViewModel(context);
+        this.productsViewModel = productsViewModel;
     }
 
     @NonNull
@@ -55,25 +61,25 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()).getId())) {
+                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()), Utils.getDate(), products.get(holder.getAbsoluteAdapterPosition()).getName())) {
                     Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
                     notifyItemRemoved(holder.getAbsoluteAdapterPosition());
                 } else {
                     Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
                 }
+
+//                try {
+//                    removeProductFromMeal = (RemoveProductFromMeal) context;
+//                    removeProductFromMeal.onRemoveProduct(products.get(holder.getAbsoluteAdapterPosition()));
+//                } catch (ClassCastException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
     }
 
     public void setProducts(ArrayList<ProductInMeal> products) {
-//        ArrayList<ProductInMeal> fixedProducts = new ArrayList<>();
-//        for (ProductInMeal p : products) {
-//            double protein = p.getProtein();
-//            double fat = p.getFat();
-//            double carbs = p.getCarbs();
-//            protein.
-//        }
         this.products = products;
         notifyDataSetChanged();
     }

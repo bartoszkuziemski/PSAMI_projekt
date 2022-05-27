@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.psami_projekt.Model.Meal;
+import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;

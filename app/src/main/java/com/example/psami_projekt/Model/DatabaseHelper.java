@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.psami_projekt.View.Adapter.ProductInMealAdapter;
 
 import java.io.File;
@@ -278,12 +280,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
+    public MutableLiveData<ArrayList<ProductInMeal>> getProductsFromMeal(String date, String meal) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
-        return products;
+        MutableLiveData<ArrayList<ProductInMeal>> mutableLiveData = new MutableLiveData<>();
+        mutableLiveData.setValue(products);
+        return mutableLiveData;
     }
 
     private ArrayList<ProductInMeal> setProductInMealFields(Cursor cursor) {

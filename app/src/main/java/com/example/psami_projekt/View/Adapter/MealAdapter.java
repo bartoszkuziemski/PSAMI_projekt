@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +22,14 @@ import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.MainActivity;
 import com.example.psami_projekt.View.SearchActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
+public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> implements ProductInMealAdapter.RemoveProductFromMeal {
 
     private ArrayList<Meal> meals = new ArrayList<>();
     private Context context;
@@ -38,6 +43,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_meal_list, parent, false);
         return new ViewHolder(view);
     }
@@ -68,18 +74,41 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 //                ArrayList<Product> products = productsViewModel.getProductsFromMeal(Utils.getDate(), );
 //                productInMealAdapter.setProducts(products);
 //        }
-        productInMealAdapter = new ProductInMealAdapter(context);
+
+
+
+        //productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
+        productsViewModel.init(context);
+        productInMealAdapter = new ProductInMealAdapter(context, productsViewModel);
+        productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName()).observe( (LifecycleOwner) context, new Observer<ArrayList<ProductInMeal>>() {
+            @Override
+            public void onChanged(ArrayList<ProductInMeal> productInMeals) {
+                productInMealAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        productInMealAdapter.setProducts(productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName()).getValue());
         holder.productRecView.setAdapter(productInMealAdapter);
         holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
-        productsViewModel = new ProductsViewModel(context);
-        ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
-        productInMealAdapter.setProducts(products);
+
+        //ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
+        //productInMealAdapter.setProducts(products);
 
     }
 
     public void setMeals(ArrayList<Meal> meals) {
         this.meals = meals;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRemoveProduct(ProductInMeal product) {
+        if (productsViewModel.deleteProductFromMeal(product, Utils.getDate(), "Breakfast")) {
+            Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+            //ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), "Dinner");
+            //productInMealAdapter.setProducts(products);
+        }
     }
 
     @Override

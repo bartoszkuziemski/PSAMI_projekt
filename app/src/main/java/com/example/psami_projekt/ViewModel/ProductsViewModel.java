@@ -3,6 +3,8 @@ package com.example.psami_projekt.ViewModel;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.psami_projekt.Model.DatabaseHelper;
@@ -15,8 +17,16 @@ import java.util.ArrayList;
 public class ProductsViewModel extends ViewModel {
 
     private DatabaseHelper databaseHelper;
+    private MutableLiveData<ArrayList<ProductInMeal>> mutableLiveData;
+
+    public ProductsViewModel() {
+    }
 
     public ProductsViewModel(Context context) {
+        this.databaseHelper = new DatabaseHelper(context);
+    }
+
+    public void init(Context context) {
         this.databaseHelper = new DatabaseHelper(context);
     }
 
@@ -48,10 +58,11 @@ public class ProductsViewModel extends ViewModel {
         return databaseHelper.deleteProduct(id);
     }
 
-    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
-        ArrayList<ProductInMeal> products = new ArrayList<>();
-        products = databaseHelper.getProductsFromMeal(date, meal);
-        return products;
+    public LiveData<ArrayList<ProductInMeal>> getProductsFromMeal(String date, String meal) {
+        //ArrayList<ProductInMeal> products = new ArrayList<>();
+        mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
+        //products = databaseHelper.getProductsFromMeal(date, meal);
+        return mutableLiveData;
     }
 
     public boolean addProductToMeal(String date, String meal, int productId, Integer grams) {
@@ -61,7 +72,14 @@ public class ProductsViewModel extends ViewModel {
         return false;
     }
 
-    public boolean deleteProductFromMeal(int id) {
-        return databaseHelper.deleteProductFromMeal(id);
+    public boolean deleteProductFromMeal(ProductInMeal productInMeal, String date, String meal) {
+        if(databaseHelper.deleteProductFromMeal(productInMeal.getId())) {
+            //mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
+            ArrayList<ProductInMeal> products = mutableLiveData.getValue();
+            products.remove(productInMeal);
+            mutableLiveData.postValue(products);
+            return true;
+        }
+        return false;
     }
 }
