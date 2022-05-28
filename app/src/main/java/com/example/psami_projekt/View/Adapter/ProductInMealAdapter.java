@@ -1,6 +1,8 @@
 package com.example.psami_projekt.View.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +40,16 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_product_in_meal, parent, false);
-        return new ViewHolder(view, context, onProductRecyclerListener);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtProductName.setText(products.get(position).getName());
         holder.txtKcal.setText(String.valueOf(products.get(position).getKcal()));
-        String protein = String.format("%.02f", products.get(position).getProtein());
-        String fat = String.format("%.02f", products.get(position).getFat());
-        String carbs = String.format("%.02f", products.get(position).getCarbs());
+        String protein = String.format("%.01f", products.get(position).getProtein());
+        String fat = String.format("%.01f", products.get(position).getFat());
+        String carbs = String.format("%.01f", products.get(position).getCarbs());
         holder.txtProtein.setText(protein);
         holder.txtFat.setText(fat);
         holder.txtCarbs.setText(carbs);
@@ -56,21 +58,23 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onProductRecyclerListener.deleteProduct(products.get(holder.getAbsoluteAdapterPosition()).getId());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you wan to delete this product?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        onProductRecyclerListener.deleteProduct(products.get(holder.getAbsoluteAdapterPosition()).getId());
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // nothing
+                    }
+                });
+                builder.create().show();
             }
         });
-
-//        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()), Utils.getDate(), products.get(holder.getAbsoluteAdapterPosition()).getName())) {
-//                    Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-//                    notifyItemRemoved(holder.getAbsoluteAdapterPosition());
-//                } else {
-//                    Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
-//                }
-
-
     }
 
     public void setProducts(ArrayList<ProductInMeal> products) {
@@ -85,19 +89,12 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private Context context;
-        private OnProductRecyclerListener onProductRecyclerListener;
+        private final TextView txtProductName, txtGrams, txtKcal, txtProtein, txtFat, txtCarbs;
+        private final ImageButton btnDelete;
+        private final ConstraintLayout parent;
 
-        private TextView txtProductName, txtGrams, txtKcal, txtProtein, txtFat, txtCarbs;
-        private ImageButton btnDelete;
-        private ConstraintLayout parent;
-
-        public ViewHolder(@NonNull View itemView, Context context, OnProductRecyclerListener onProductRecyclerListener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            this.context = context;
-            this.onProductRecyclerListener = onProductRecyclerListener;
-
             txtProductName = itemView.findViewById(R.id.txtProductInMealName);
             txtGrams = itemView.findViewById(R.id.txtProductGramsInMeal);
             txtKcal = itemView.findViewById(R.id.txtProductInMealKcal);
@@ -108,7 +105,5 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
             parent = itemView.findViewById(R.id.productsInMealParent);
 
         }
-
     }
-
 }
