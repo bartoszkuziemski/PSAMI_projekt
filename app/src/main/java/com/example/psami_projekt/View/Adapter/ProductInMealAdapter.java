@@ -1,7 +1,6 @@
 package com.example.psami_projekt.View.Adapter;
 
 import android.content.Context;
-import android.content.pm.LabeledIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
-import com.example.psami_projekt.View.MainActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdapter.ViewHolder> {
 
@@ -29,21 +25,22 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
     private Context context;
     private ProductsViewModel productsViewModel;
 
-    public interface RemoveProductFromMeal {
-        void onRemoveProduct(ProductInMeal product);
+    public interface OnProductRecyclerListener {
+        void deleteProduct(int position);
     }
-    private RemoveProductFromMeal removeProductFromMeal;
+    private OnProductRecyclerListener onProductRecyclerListener;
 
-    public ProductInMealAdapter(Context context, ProductsViewModel productsViewModel) {
+    public ProductInMealAdapter(Context context, ProductsViewModel productsViewModel, OnProductRecyclerListener onProductRecyclerListener) {
         this.context = context;
         this.productsViewModel = productsViewModel;
+        this.onProductRecyclerListener = onProductRecyclerListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_product_in_meal, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, context, onProductRecyclerListener);
     }
 
     @Override
@@ -58,24 +55,24 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         holder.txtCarbs.setText(carbs);
         holder.txtGrams.setText(String.valueOf(products.get(position).getGrams()));
 
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()), Utils.getDate(), products.get(holder.getAbsoluteAdapterPosition()).getName())) {
-                    Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-                    notifyItemRemoved(holder.getAbsoluteAdapterPosition());
-                } else {
-                    Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
-                }
-
-//                try {
-//                    removeProductFromMeal = (RemoveProductFromMeal) context;
-//                    removeProductFromMeal.onRemoveProduct(products.get(holder.getAbsoluteAdapterPosition()));
-//                } catch (ClassCastException e) {
-//                    e.printStackTrace();
+//        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (productsViewModel.deleteProductFromMeal(products.get(holder.getAbsoluteAdapterPosition()), Utils.getDate(), products.get(holder.getAbsoluteAdapterPosition()).getName())) {
+//                    Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+//                    notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+//                } else {
+//                    Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
 //                }
-            }
-        });
+//
+////                try {
+////                    removeProductFromMeal = (RemoveProductFromMeal) context;
+////                    removeProductFromMeal.onRemoveProduct(products.get(holder.getAbsoluteAdapterPosition()));
+////                } catch (ClassCastException e) {
+////                    e.printStackTrace();
+////                }
+//            }
+//        });
 
     }
 
@@ -91,12 +88,19 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private Context context;
+        private OnProductRecyclerListener onProductRecyclerListener;
+
         private TextView txtProductName, txtGrams, txtKcal, txtProtein, txtFat, txtCarbs;
         private ImageButton btnDelete;
         private ConstraintLayout parent;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, Context context, OnProductRecyclerListener onProductRecyclerListener) {
             super(itemView);
+
+            this.context = context;
+            this.onProductRecyclerListener = onProductRecyclerListener;
+
             txtProductName = itemView.findViewById(R.id.txtProductInMealName);
             txtGrams = itemView.findViewById(R.id.txtProductGramsInMeal);
             txtKcal = itemView.findViewById(R.id.txtProductInMealKcal);
@@ -105,6 +109,17 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
             txtCarbs = itemView.findViewById(R.id.txtProductInMealCarbs);
             btnDelete = itemView.findViewById(R.id.btnDeleteFromMeal);
             parent = itemView.findViewById(R.id.productsInMealParent);
+
+            loadListeners(itemView);
+        }
+
+        private void loadListeners(View itemView) {
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onProductRecyclerListener.deleteProduct(products.get(getAbsoluteAdapterPosition()).getId());
+                }
+            });
         }
     }
 

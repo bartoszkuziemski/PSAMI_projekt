@@ -18,18 +18,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
-import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
-import com.example.psami_projekt.View.MainActivity;
 import com.example.psami_projekt.View.SearchActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> implements ProductInMealAdapter.RemoveProductFromMeal {
+public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
+
+    public interface OnMealRecyclerListener {
+        void deleteProduct(int productPosition, int mealPosition);
+    }
+
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    private OnMealRecyclerListener onMealRecyclerListener;
 
     private ArrayList<Meal> meals = new ArrayList<>();
     private Context context;
@@ -43,9 +48,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> im
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_meal_list, parent, false);
-        return new ViewHolder(view);
+        return new MealAdapter.ViewHolder(view, onMealRecyclerListener, context);
     }
 
     @Override
@@ -68,18 +72,10 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> im
             }
         });
 
-        // tests
-//        switch (meals.get(holder.getAbsoluteAdapterPosition()).getName()) {
-//            case "Breakfast":
-//                ArrayList<Product> products = productsViewModel.getProductsFromMeal(Utils.getDate(), );
-//                productInMealAdapter.setProducts(products);
-//        }
 
-
-
-        //productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
+        productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
         productsViewModel.init(context);
-        productInMealAdapter = new ProductInMealAdapter(context, productsViewModel);
+        productInMealAdapter = new ProductInMealAdapter(context, productsViewModel, holder);
         productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName()).observe( (LifecycleOwner) context, new Observer<ArrayList<ProductInMeal>>() {
             @Override
             public void onChanged(ArrayList<ProductInMeal> productInMeals) {
@@ -103,33 +99,49 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> im
     }
 
     @Override
-    public void onRemoveProduct(ProductInMeal product) {
-        if (productsViewModel.deleteProductFromMeal(product, Utils.getDate(), "Breakfast")) {
-            Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-            //ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), "Dinner");
-            //productInMealAdapter.setProducts(products);
-        }
-    }
-
-    @Override
     public int getItemCount() {
         return meals.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements ProductInMealAdapter.OnProductRecyclerListener{
+        private OnMealRecyclerListener onMealRecyclerListener;
+        private Context context;
 
         private TextView txtMealName, txtMealKcal;
         private FloatingActionButton fabAddMeal;
         private ConstraintLayout parent;
         private RecyclerView productRecView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnMealRecyclerListener onMealRecyclerListener, Context context) {
             super(itemView);
+
+            this.onMealRecyclerListener = onMealRecyclerListener;
+            this.context = context;
+
             txtMealName = itemView.findViewById(R.id.txtMealName);
             txtMealKcal = itemView.findViewById(R.id.txtMealKcal);
             fabAddMeal = itemView.findViewById(R.id.fabAddProduct);
             parent = itemView.findViewById(R.id.mealListLayoutParent);
             productRecView = itemView.findViewById(R.id.productsInMealRecView);
+
+            loadListeners(itemView);
         }
+
+        private void loadListeners(View initView) {
+
+        }
+
+        @Override
+        public void deleteProduct(int productId) {
+            onMealRecyclerListener.deleteProduct(productId, getAbsoluteAdapterPosition());
+        }
+    }
+
+    public void setOnMealRecyclerListener(OnMealRecyclerListener onMealRecyclerListener) {
+        this.onMealRecyclerListener = onMealRecyclerListener;
+    }
+
+    public ProductInMealAdapter getProductInMealAdapter() {
+        return productInMealAdapter;
     }
 }

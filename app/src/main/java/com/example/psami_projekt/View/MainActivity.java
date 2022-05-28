@@ -23,7 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MealAdapter.OnMealRecyclerListener {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         mealRecView = findViewById(R.id.mealRecView);
         mealAdapter = new MealAdapter(this);
+        mealAdapter.setOnMealRecyclerListener(this);
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(this));
         Meal.initMeals();
@@ -120,4 +121,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
     }
 
+    @Override
+    public void deleteProduct(int productId, int mealPosition) {
+        productsViewModel.deleteProductFromMeal(productId);
+        mealAdapter.notifyDataSetChanged();
+        mealAdapter.getProductInMealAdapter().notifyDataSetChanged();
+    }
 }

@@ -72,14 +72,15 @@ public class ProductsViewModel extends ViewModel {
         return false;
     }
 
-    public boolean deleteProductFromMeal(ProductInMeal productInMeal, String date, String meal) {
-        if(databaseHelper.deleteProductFromMeal(productInMeal.getId())) {
-            //mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
-            ArrayList<ProductInMeal> products = mutableLiveData.getValue();
-            products.remove(productInMeal);
-            mutableLiveData.postValue(products);
-            return true;
-        }
-        return false;
+    public boolean deleteProductFromMeal(int productId) {
+//        if(databaseHelper.deleteProductFromMeal(productInMeal.getId())) {
+//            //mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
+//            ArrayList<ProductInMeal> products = mutableLiveData.getValue();
+//            products.remove(productInMeal);
+//            mutableLiveData.postValue(products);
+//            return true;
+//        }
+//        return false;
+        return databaseHelper.deleteProductFromMeal(productId);
     }
 }
