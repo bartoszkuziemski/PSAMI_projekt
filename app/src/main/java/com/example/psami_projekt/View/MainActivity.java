@@ -23,13 +23,11 @@ import com.google.android.material.navigation.NavigationView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MealAdapter.OnMealRecyclerListener {
+public class MainActivity extends AppCompatActivity {
 
-    private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private RecyclerView mealRecView;
-    private MealAdapter mealAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,57 +38,48 @@ public class MainActivity extends AppCompatActivity implements MealAdapter.OnMea
 
         getDateFromCalendar();
 
-        initMealRecView();
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.mainFragmentContainerView, MainFragment.class, null)
+                .commit();
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //// TODO: 12.05.2022 set activities
-                switch (item.getItemId()) {
-                    case R.id.mealPlan:
-                        Toast.makeText(MainActivity.this, "meal plan clicked", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.calendar:
-                        Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.recipes:
 
-                        break;
-                    case R.id.summary:
-
-                        break;
-                    case R.id.bodyMeasurements:
-
-                        break;
-                    case R.id.settings:
-
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                //// TODO: 12.05.2022 set activities
+//                switch (item.getItemId()) {
+//                    case R.id.mealPlan:
+//                        Toast.makeText(MainActivity.this, "meal plan clicked", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.calendar:
+//                        Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+//                        startActivity(intent);
+//                        break;
+//                    case R.id.recipes:
+//
+//                        break;
+//                    case R.id.summary:
+//
+//                        break;
+//                    case R.id.bodyMeasurements:
+//
+//                        break;
+//                    case R.id.settings:
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.bottomFragmentContainerView, BottomKcalFragment.class, null)
                 .commit();
 
-    }
-
-    private void initMealRecView() {
-        mealRecView = findViewById(R.id.mealRecView);
-        mealAdapter = new MealAdapter(this);
-        mealAdapter.setOnMealRecyclerListener(this);
-        mealRecView.setAdapter(mealAdapter);
-        mealRecView.setLayoutManager(new LinearLayoutManager(this));
-        Meal.initMeals();
-        ArrayList<Meal> meals = Meal.getMeals();
-        if (meals != null) {
-            mealAdapter.setMeals(meals);
-        }
     }
 
     private void initViews() {
@@ -112,10 +101,4 @@ public class MainActivity extends AppCompatActivity implements MealAdapter.OnMea
         Utils.setDate(date);
     }
 
-    @Override
-    public void deleteProduct(int productId, int mealPosition) {
-        productsViewModel.deleteProductFromMeal(productId);
-        mealAdapter.notifyDataSetChanged();
-        mealAdapter.getProductInMealAdapter().notifyDataSetChanged();
-    }
 }
