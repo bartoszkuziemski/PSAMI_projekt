@@ -28,14 +28,14 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
+    private ArrayList<Product> searchedProducts = new ArrayList<>();
     private RecyclerView searchRecView;
     private SearchAdapter searchAdapter;
     private EditText searchBox;
     private ImageView btnSearch;
     private ConstraintLayout addNewProduct;
     private FloatingActionButton fabAddNewProduct;
-    private ArrayList<Product> searchedProducts = new ArrayList<>();
-    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         initViews();
+
         initRecyclerView();
 
         /**

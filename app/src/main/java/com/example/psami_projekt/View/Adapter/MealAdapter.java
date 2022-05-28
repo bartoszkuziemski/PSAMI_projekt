@@ -33,23 +33,23 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         void deleteProduct(int productPosition, int mealPosition);
     }
 
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private OnMealRecyclerListener onMealRecyclerListener;
 
+    private final ProductsViewModel productsViewModel;
+    private final Context context;
     private ArrayList<Meal> meals = new ArrayList<>();
-    private Context context;
     private ProductInMealAdapter productInMealAdapter;
-    private ProductsViewModel productsViewModel;
 
     public MealAdapter(Context context) {
         this.context = context;
+        this.productsViewModel = new ProductsViewModel(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_meal_list, parent, false);
-        return new MealAdapter.ViewHolder(view, onMealRecyclerListener, context);
+        return new MealAdapter.ViewHolder(view);
     }
 
     @Override
@@ -73,23 +73,11 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         });
 
 
-        productsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProductsViewModel.class);
-        productsViewModel.init(context);
-        productInMealAdapter = new ProductInMealAdapter(context, productsViewModel, holder);
-        productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName()).observe( (LifecycleOwner) context, new Observer<ArrayList<ProductInMeal>>() {
-            @Override
-            public void onChanged(ArrayList<ProductInMeal> productInMeals) {
-                productInMealAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        productInMealAdapter.setProducts(productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName()).getValue());
+        productInMealAdapter = new ProductInMealAdapter(context, holder);
+        ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
+        productInMealAdapter.setProducts(products);
         holder.productRecView.setAdapter(productInMealAdapter);
         holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
-
-        //ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
-        //productInMealAdapter.setProducts(products);
 
     }
 
@@ -104,31 +92,19 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements ProductInMealAdapter.OnProductRecyclerListener{
-        private OnMealRecyclerListener onMealRecyclerListener;
-        private Context context;
 
         private TextView txtMealName, txtMealKcal;
         private FloatingActionButton fabAddMeal;
         private ConstraintLayout parent;
         private RecyclerView productRecView;
 
-        public ViewHolder(@NonNull View itemView, OnMealRecyclerListener onMealRecyclerListener, Context context) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            this.onMealRecyclerListener = onMealRecyclerListener;
-            this.context = context;
-
             txtMealName = itemView.findViewById(R.id.txtMealName);
             txtMealKcal = itemView.findViewById(R.id.txtMealKcal);
             fabAddMeal = itemView.findViewById(R.id.fabAddProduct);
             parent = itemView.findViewById(R.id.mealListLayoutParent);
             productRecView = itemView.findViewById(R.id.productsInMealRecView);
-
-            loadListeners(itemView);
-        }
-
-        private void loadListeners(View initView) {
-
         }
 
         @Override

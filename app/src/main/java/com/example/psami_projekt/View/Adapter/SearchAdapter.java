@@ -25,9 +25,8 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
+    private final Context context;
     private ArrayList<Product> searchedProducts = new ArrayList<>();
-    private Context context;
-    private ProductsViewModel productsViewModel = new ProductsViewModel(context);
 
     public SearchAdapter(Context context) {
         this.context = context;

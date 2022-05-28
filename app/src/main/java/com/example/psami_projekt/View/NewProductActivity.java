@@ -15,10 +15,11 @@ import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 public class NewProductActivity extends AppCompatActivity {
 
+    private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
+
     private EditText editTextName, editTextDescription, editTextProtein, editTextFat, editTextCarbs;
     private Button btnNewProduct;
     private TextView txtAlert;
-    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

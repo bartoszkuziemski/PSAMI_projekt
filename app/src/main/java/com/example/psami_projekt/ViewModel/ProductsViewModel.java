@@ -16,35 +16,26 @@ import java.util.ArrayList;
 
 public class ProductsViewModel extends ViewModel {
 
-    private DatabaseHelper databaseHelper;
-    private MutableLiveData<ArrayList<ProductInMeal>> mutableLiveData;
-
-    public ProductsViewModel() {
-    }
+    private final DatabaseHelper databaseHelper;
 
     public ProductsViewModel(Context context) {
         this.databaseHelper = new DatabaseHelper(context);
     }
 
-    public void init(Context context) {
-        this.databaseHelper = new DatabaseHelper(context);
-    }
-
     public ArrayList<Product> getStaringProducts() {
-        ArrayList<Product> startingProducts = new ArrayList<>();
+        ArrayList<Product> startingProducts;
         startingProducts = databaseHelper.initStartingProducts();
         return startingProducts;
     }
 
     public ArrayList<Product> getProductsByName(String productName) {
-        ArrayList<Product> searchedProducts = new ArrayList<>();
+        ArrayList<Product> searchedProducts;
         searchedProducts = databaseHelper.getProductsByName(productName);
         return searchedProducts;
     }
 
     public Product getProductById(int id) {
-        Product product = databaseHelper.getProductById(id);
-        return product;
+        return databaseHelper.getProductById(id);
     }
 
     public boolean addToDatabase(Product product) {
@@ -58,11 +49,10 @@ public class ProductsViewModel extends ViewModel {
         return databaseHelper.deleteProduct(id);
     }
 
-    public LiveData<ArrayList<ProductInMeal>> getProductsFromMeal(String date, String meal) {
-        //ArrayList<ProductInMeal> products = new ArrayList<>();
-        mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
-        //products = databaseHelper.getProductsFromMeal(date, meal);
-        return mutableLiveData;
+    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
+        ArrayList<ProductInMeal> products;
+        products = databaseHelper.getProductsFromMeal(date, meal);
+        return products;
     }
 
     public boolean addProductToMeal(String date, String meal, int productId, Integer grams) {
@@ -73,14 +63,6 @@ public class ProductsViewModel extends ViewModel {
     }
 
     public boolean deleteProductFromMeal(int productId) {
-//        if(databaseHelper.deleteProductFromMeal(productInMeal.getId())) {
-//            //mutableLiveData = databaseHelper.getProductsFromMeal(date, meal);
-//            ArrayList<ProductInMeal> products = mutableLiveData.getValue();
-//            products.remove(productInMeal);
-//            mutableLiveData.postValue(products);
-//            return true;
-//        }
-//        return false;
         return databaseHelper.deleteProductFromMeal(productId);
     }
 }

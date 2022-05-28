@@ -25,17 +25,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MealAdapter.OnMealRecyclerListener {
 
+    private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private String date;
-    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
-
     private RecyclerView mealRecView;
     private MealAdapter mealAdapter;
-
-    // tests
-    private ProductInMealAdapter adapter;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,36 +38,9 @@ public class MainActivity extends AppCompatActivity implements MealAdapter.OnMea
 
         initViews();
 
-        /**
-         * Get day id from adapter
-         */
-        Intent intent = getIntent();
-        if (intent.getStringExtra(CalendarActivity.DATE_ID_KEY) != null) {
-            date = intent.getStringExtra(CalendarActivity.DATE_ID_KEY);
-        } else {
-            date = LocalDate.now().toString();
-        }
+        getDateFromCalendar();
 
-        Utils.setDate(date);
-
-        mealRecView = findViewById(R.id.mealRecView);
-        mealAdapter = new MealAdapter(this);
-        mealAdapter.setOnMealRecyclerListener(this);
-        mealRecView.setAdapter(mealAdapter);
-        mealRecView.setLayoutManager(new LinearLayoutManager(this));
-        Meal.initMeals();
-        ArrayList<Meal> meals = Meal.getMeals();
-        if (meals != null) {
-            mealAdapter.setMeals(meals);
-        }
-
-//         tests
-//        recyclerView = findViewById(R.id.mealRecView);
-//        adapter = new ProductInMealAdapter(this);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        ArrayList<Product> products = productsViewModel.getStaringProducts();
-//        adapter.setProducts(products);
+        initMealRecView();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -106,19 +73,38 @@ public class MainActivity extends AppCompatActivity implements MealAdapter.OnMea
             }
         });
 
+    }
 
-
-        //productsViewModel.addProductToMeal(11, "2022-05-14", "Lunch");
-
-       // ArrayList<Product> products = productsViewModel.getProductsFromMeal("aaa", "bbb");
-
-       // ArrayList<Product> testProducts = productsViewModel.getStaringProducts();
-
+    private void initMealRecView() {
+        mealRecView = findViewById(R.id.mealRecView);
+        mealAdapter = new MealAdapter(this);
+        mealAdapter.setOnMealRecyclerListener(this);
+        mealRecView.setAdapter(mealAdapter);
+        mealRecView.setLayoutManager(new LinearLayoutManager(this));
+        Meal.initMeals();
+        ArrayList<Meal> meals = Meal.getMeals();
+        if (meals != null) {
+            mealAdapter.setMeals(meals);
+        }
     }
 
     private void initViews() {
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
+    }
+
+    /**
+     * Get date from calendar, if there is none set today's date
+     */
+    private void getDateFromCalendar() {
+        Intent intent = getIntent();
+        String date;
+        if (intent.getStringExtra(CalendarActivity.DATE_ID_KEY) != null) {
+            date = intent.getStringExtra(CalendarActivity.DATE_ID_KEY);
+        } else {
+            date = LocalDate.now().toString();
+        }
+        Utils.setDate(date);
     }
 
     @Override

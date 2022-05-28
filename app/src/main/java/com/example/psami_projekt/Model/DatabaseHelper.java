@@ -273,21 +273,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("Grams", grams);
         long result = db.insert(MEAL_TABLE_NAME, null, values);
         db.close();
-        if (result < 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return result >= 0;
     }
 
-    public MutableLiveData<ArrayList<ProductInMeal>> getProductsFromMeal(String date, String meal) {
+    public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
-        MutableLiveData<ArrayList<ProductInMeal>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(products);
-        return mutableLiveData;
+        return products;
     }
 
     private ArrayList<ProductInMeal> setProductInMealFields(Cursor cursor) {

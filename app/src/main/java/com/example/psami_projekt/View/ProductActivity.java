@@ -21,12 +21,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ProductActivity extends AppCompatActivity {
 
     public static final String PRODUCT_ID_KEY = "productId";
+    private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
+    private int id;
+
     private TextView name, description, kcal, protein, fat, carbs;
     private FloatingActionButton fabAddProduct;
     private EditText editTextHowManyGrams;
     private Button btnDelete;
-    private int id;
-    private ProductsViewModel productsViewModel = new ProductsViewModel(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,6 @@ public class ProductActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            // int productId = intent.getIntExtra(PRODUCT_ID_KEY, -1); // get id of product;
             this.id = intent.getIntExtra(PRODUCT_ID_KEY, -1);  // get id of product;
             if (this.id != -1) {
                 Product incomingProduct = productsViewModel.getProductById(this.id);
@@ -63,6 +63,7 @@ public class ProductActivity extends AppCompatActivity {
                     Integer grams = Integer.valueOf(editTextHowManyGrams.getText().toString());
                     productsViewModel.addProductToMeal(Utils.getDate(), Utils.getMeal(), ProductActivity.this.id, grams);
                     Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    mainIntent.putExtra(CalendarActivity.DATE_ID_KEY, Utils.getDate());
                     startActivity(mainIntent);
                 }
             }

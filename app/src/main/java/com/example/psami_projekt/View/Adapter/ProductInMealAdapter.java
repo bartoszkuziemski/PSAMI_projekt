@@ -23,16 +23,14 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
 
     private ArrayList<ProductInMeal> products = new ArrayList<>();
     private Context context;
-    private ProductsViewModel productsViewModel;
 
     public interface OnProductRecyclerListener {
         void deleteProduct(int position);
     }
     private OnProductRecyclerListener onProductRecyclerListener;
 
-    public ProductInMealAdapter(Context context, ProductsViewModel productsViewModel, OnProductRecyclerListener onProductRecyclerListener) {
+    public ProductInMealAdapter(Context context, OnProductRecyclerListener onProductRecyclerListener) {
         this.context = context;
-        this.productsViewModel = productsViewModel;
         this.onProductRecyclerListener = onProductRecyclerListener;
     }
 
@@ -55,6 +53,13 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         holder.txtCarbs.setText(carbs);
         holder.txtGrams.setText(String.valueOf(products.get(position).getGrams()));
 
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onProductRecyclerListener.deleteProduct(products.get(holder.getAbsoluteAdapterPosition()).getId());
+            }
+        });
+
 //        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -64,15 +69,7 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
 //                } else {
 //                    Toast.makeText(context, "Cannot delete product, try again", Toast.LENGTH_SHORT).show();
 //                }
-//
-////                try {
-////                    removeProductFromMeal = (RemoveProductFromMeal) context;
-////                    removeProductFromMeal.onRemoveProduct(products.get(holder.getAbsoluteAdapterPosition()));
-////                } catch (ClassCastException e) {
-////                    e.printStackTrace();
-////                }
-//            }
-//        });
+
 
     }
 
@@ -110,17 +107,8 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
             btnDelete = itemView.findViewById(R.id.btnDeleteFromMeal);
             parent = itemView.findViewById(R.id.productsInMealParent);
 
-            loadListeners(itemView);
         }
 
-        private void loadListeners(View itemView) {
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onProductRecyclerListener.deleteProduct(products.get(getAbsoluteAdapterPosition()).getId());
-                }
-            });
-        }
     }
 
 }
