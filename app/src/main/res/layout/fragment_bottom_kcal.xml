@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentBottomKcal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottomKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="86dp" />
+
+    <!--========================== Kcal =================================-->
+
+    <ProgressBar
+        android:id="@+id/progressBarKcal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineBottomKcal" />
+
+    <TextView
+        android:id="@+id/textViewRawBottomKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Kcal"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/progressBarKcal"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarKcal" />
+
+    <TextView
+        android:id="@+id/txtMaxKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="2000"
+        app:layout_constraintStart_toStartOf="@+id/textViewRawBottomKcal"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRawBottomKcal" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="kcal"
+        app:layout_constraintStart_toEndOf="@+id/txtMaxKcal"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxKcal" />
+
+    <TextView
+        android:id="@+id/txtBottomProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewRawBottomProtein" />
+
+    <!--========================== Protein =================================-->
+
+    <ProgressBar
+        android:id="@+id/progressBarProtein"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/progressBarKcal"
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+
+    <TextView
+        android:id="@+id/textViewRawBottomProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prot."
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/progressBarProtein"
+        app:layout_constraintTop_toTopOf="@+id/textViewRawBottomKcal" />
+
+    <TextView
+        android:id="@+id/txtMaxProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150"
+        app:layout_constraintStart_toStartOf="@+id/textViewRawBottomProtein"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxKcal" />
+
+    <TextView
+        android:id="@+id/txtBottomKcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewRawBottomKcal" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="g"
+        app:layout_constraintStart_toEndOf="@+id/txtMaxProtein"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxProtein" />
+
+    <!--========================== Fats =================================-->
+
+    <ProgressBar
+        android:id="@+id/progressBarFats"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/progressBarProtein"
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+
+    <TextView
+        android:id="@+id/textViewRawBottomFats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fats"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/progressBarFats"
+        app:layout_constraintTop_toTopOf="@+id/textViewRawBottomKcal" />
+
+    <TextView
+        android:id="@+id/txtMaxFats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150"
+        app:layout_constraintStart_toStartOf="@+id/textViewRawBottomFats"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxKcal" />
+
+    <TextView
+        android:id="@+id/txtBottomFats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewRawBottomFats" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="g"
+        app:layout_constraintStart_toEndOf="@+id/txtMaxFats"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxFats" />
+
+    <!--========================== Carbs =================================-->
+
+    <ProgressBar
+        android:id="@+id/progressBarCarbs"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/progressBarFats"
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+
+    <TextView
+        android:id="@+id/textViewRawBottomCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carbs"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/progressBarCarbs"
+        app:layout_constraintTop_toTopOf="@+id/textViewRawBottomKcal" />
+
+    <TextView
+        android:id="@+id/txtMaxCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150"
+        app:layout_constraintStart_toStartOf="@+id/textViewRawBottomCarbs"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxKcal" />
+
+    <TextView
+        android:id="@+id/txtBottomCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
+        app:layout_constraintStart_toEndOf="@+id/textViewRawBottomCarbs" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:text="g"
+        app:layout_constraintStart_toEndOf="@+id/txtMaxCarbs"
+        app:layout_constraintTop_toTopOf="@+id/txtMaxCarbs" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

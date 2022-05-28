@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements MealAdapter.OnMea
             }
         });
 
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.bottomFragmentContainerView, BottomKcalFragment.class, null)
+                .commit();
+
     }
 
     private void initMealRecView() {
