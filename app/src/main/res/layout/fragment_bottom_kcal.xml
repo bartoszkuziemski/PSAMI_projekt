@@ -13,7 +13,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,10 +50,10 @@
         android:id="@+id/txtBottomProtein"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
         android:text="0"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
         app:layout_constraintStart_toEndOf="@+id/textViewRawBottomProtein" />
@@ -65,7 +65,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarKcal"
         app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
 
@@ -90,10 +90,10 @@
         android:id="@+id/txtBottomKcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
         android:text="0"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
         app:layout_constraintStart_toEndOf="@+id/textViewRawBottomKcal" />
@@ -114,7 +114,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarProtein"
         app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
 
@@ -139,10 +139,10 @@
         android:id="@+id/txtBottomFats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
         android:text="0"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
         app:layout_constraintStart_toEndOf="@+id/textViewRawBottomFats" />
@@ -163,7 +163,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarFats"
         app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
 
@@ -188,10 +188,10 @@
         android:id="@+id/txtBottomCarbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
         android:text="0"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textViewRawBottomKcal"
         app:layout_constraintStart_toEndOf="@+id/textViewRawBottomCarbs" />

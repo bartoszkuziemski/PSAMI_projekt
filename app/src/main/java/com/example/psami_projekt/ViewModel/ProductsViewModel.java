@@ -55,6 +55,10 @@ public class ProductsViewModel extends ViewModel {
         return products;
     }
 
+    public ArrayList<ProductInMeal> getProductsFromDay(String date) {
+        return databaseHelper.getProductsFromDay(date);
+    }
+
     public boolean addProductToMeal(String date, String meal, int productId, Integer grams) {
         if (productId > 0 && date != "" && meal != "") {
             return databaseHelper.addProductToMeal(date, meal, productId, grams);
