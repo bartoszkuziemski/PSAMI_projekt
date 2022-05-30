@@ -277,6 +277,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<ProductInMeal> getProductsFromDay(String date) {
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        checkMealTableExist();
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? ;", new String[]{date});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
