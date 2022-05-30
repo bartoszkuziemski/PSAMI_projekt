@@ -35,16 +35,15 @@ public class MainFragment extends Fragment implements MealAdapter.OnMealRecycler
     }
 
     private void initMealRecView(View view) {
+        Meal.initMeals();
+        ArrayList<Meal> meals = Meal.getMeals();
         mealRecView = view.findViewById(R.id.mealRecView);
-        mealAdapter = new MealAdapter(getContext());
+        mealAdapter = new MealAdapter(getContext(), meals);
         mealAdapter.setOnMealRecyclerListener(this);
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Meal.initMeals();
-        ArrayList<Meal> meals = Meal.getMeals();
-        if (meals != null) {
-            mealAdapter.setMeals(meals);
-        }
+
+
     }
 
     @Override

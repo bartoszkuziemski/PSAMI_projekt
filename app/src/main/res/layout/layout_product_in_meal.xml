@@ -5,20 +5,20 @@
     android:id="@+id/productsInMealParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:layout_marginTop="2dp"
     android:background="@color/product_gray"
-    android:layout_marginTop="2dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/txtProductInMealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:text="Product name"
-        android:textSize="20dp"
         android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="3dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtProductInMealKcal"
@@ -45,42 +45,41 @@
         android:id="@+id/txtProductInMealProtein"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="5.1"
+        android:text="0.0"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewProductInMealKcal"
-        app:layout_constraintStart_toEndOf="@+id/textViewProductInMealKcal" />
+        app:layout_constraintStart_toEndOf="@+id/guidelineProductInMeal" />
 
     <TextView
         android:id="@+id/txtProductInMealFat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="6.2"
+        android:layout_marginStart="60dp"
+        android:text="0.0"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtProductInMealProtein"
-        app:layout_constraintStart_toEndOf="@+id/txtProductInMealProtein"
+        app:layout_constraintStart_toEndOf="@+id/guidelineProductInMeal"
         app:layout_constraintTop_toTopOf="@+id/txtProductInMealProtein" />
 
     <TextView
         android:id="@+id/txtProductInMealCarbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="7.3"
+        android:layout_marginStart="120dp"
+        android:text="0.0"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtProductInMealFat"
-        app:layout_constraintStart_toEndOf="@+id/txtProductInMealFat"
+        app:layout_constraintStart_toEndOf="@+id/guidelineProductInMeal"
         app:layout_constraintTop_toTopOf="@+id/txtProductInMealFat" />
 
     <ImageButton
         android:id="@+id/btnDeleteFromMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_x"
         android:backgroundTint="@color/product_gray"
+        android:src="@drawable/ic_x"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtProductGramsInMeal"
@@ -98,8 +97,15 @@
         android:layout_height="wrap_content"
         android:text="g"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/txtProductGramsInMeal"
         app:layout_constraintStart_toEndOf="@id/txtProductGramsInMeal"
-        app:layout_constraintTop_toTopOf="@id/txtProductGramsInMeal"
-        app:layout_constraintBottom_toBottomOf="@id/txtProductGramsInMeal"/>
+        app:layout_constraintTop_toTopOf="@id/txtProductGramsInMeal" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineProductInMeal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

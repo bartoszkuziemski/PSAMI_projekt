@@ -10,10 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,12 +33,14 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     private final ProductsViewModel productsViewModel;
     private final Context context;
-    private ArrayList<Meal> meals = new ArrayList<>();
+    private ArrayList<ProductInMeal> products;
+    private final ArrayList<Meal> meals;
     private ProductInMealAdapter productInMealAdapter;
 
-    public MealAdapter(Context context) {
+    public MealAdapter(Context context, ArrayList<Meal> meals) {
         this.context = context;
         this.productsViewModel = new ProductsViewModel(context);
+        this.meals = meals;
     }
 
     @NonNull
@@ -54,8 +52,14 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtMealName.setText(meals.get(position).getName());
-        holder.txtMealKcal.setText(String.valueOf(meals.get(position).getKcal()));
+
+        initProductInMealRecView(holder);
+
+        calculateFieldsInMeal(holder);
+
+        setTxtFields(holder, position);
+
+
         holder.fabAddMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,20 +75,48 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
                 Toast.makeText(context, "Meal clicked", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    private void setTxtFields(@NonNull ViewHolder holder, int position) {
+        holder.txtMealName.setText(meals.get(position).getName());
+        holder.txtMealKcal.setText(String.valueOf(meals.get(position).getKcal()));
+        holder.txtMealProtein.setText(String.format("%.01f", meals.get(position).getProteins()));
+        holder.txtMealFats.setText(String.format("%.01f", meals.get(position).getFats()));
+        holder.txtMealCarbs.setText(String.format("%.01f", meals.get(position).getCarbs()));
+    }
 
+    /**
+     * Calculate kcal, protein, fats, carbs in meal from all products
+     * @param holder h
+     */
+    private void calculateFieldsInMeal(ViewHolder holder) {
+        Meal meal = meals.get(holder.getAbsoluteAdapterPosition());
+        Integer kcal = 0;
+        Double protein = 0.0, fats = 0.0, carbs = 0.0;
+        for (ProductInMeal product : products) {
+            kcal += product.getKcal();
+            protein += product.getProtein();
+            fats += product.getFat();
+            carbs += product.getCarbs();
+        }
+        meal.setKcal(kcal);
+        meal.setProteins(protein);
+        meal.setFats(fats);
+        meal.setCarbs(carbs);
+    }
+
+    private void initProductInMealRecView(@NonNull ViewHolder holder) {
         productInMealAdapter = new ProductInMealAdapter(context, holder);
-        ArrayList<ProductInMeal> products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
+        products = productsViewModel.getProductsFromMeal(Utils.getDate(), meals.get(holder.getAbsoluteAdapterPosition()).getName());
         productInMealAdapter.setProducts(products);
         holder.productRecView.setAdapter(productInMealAdapter);
         holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
-
     }
 
-    public void setMeals(ArrayList<Meal> meals) {
-        this.meals = meals;
-        notifyDataSetChanged();
-    }
+//    public void setMeals(ArrayList<Meal> meals) {
+//        this.meals = meals;
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public int getItemCount() {
@@ -93,7 +125,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements ProductInMealAdapter.OnProductRecyclerListener{
 
-        private TextView txtMealName, txtMealKcal;
+        private TextView txtMealName, txtMealKcal, txtMealProtein, txtMealFats, txtMealCarbs;
         private FloatingActionButton fabAddMeal;
         private ConstraintLayout parent;
         private RecyclerView productRecView;
@@ -102,6 +134,10 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             super(itemView);
             txtMealName = itemView.findViewById(R.id.txtMealName);
             txtMealKcal = itemView.findViewById(R.id.txtMealKcal);
+            txtMealProtein = itemView.findViewById(R.id.txtMealProtein);
+            txtMealFats = itemView.findViewById(R.id.txtMealFat);
+            txtMealCarbs = itemView.findViewById(R.id.txtMealCarbs);
+
             fabAddMeal = itemView.findViewById(R.id.fabAddProduct);
             parent = itemView.findViewById(R.id.mealListLayoutParent);
             productRecView = itemView.findViewById(R.id.productsInMealRecView);
