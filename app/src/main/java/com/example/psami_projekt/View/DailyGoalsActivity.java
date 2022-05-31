@@ -32,7 +32,6 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
         initViews();
         setFieldsFromUtils();
-
         setTextChangedListeners();
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +53,6 @@ public class DailyGoalsActivity extends AppCompatActivity {
     }
 
 
-
     private void setTextChangedListeners() {
         editTextMaxKcal.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,8 +60,14 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                maxKcal = Integer.valueOf(editTextMaxKcal.getText().toString());
-                calculateProteins();
+                if (editTextMaxKcal.getText().toString().equals("")) {
+                    maxKcal = 1; // set 1 in order to avoid dividing by 0
+                } else {
+                    maxKcal = Integer.valueOf(editTextMaxKcal.getText().toString());
+                }
+                percentageProteins = calculatePercentage(maxProteins, 4, txtPercentageProteins);
+                percentageFats = calculatePercentage(maxFats, 9, txtPercentageFats);
+                percentageCarbs = calculatePercentage(maxCarbs, 4, txtPercentageCarbs);
                 calculatePercentageTotal();
             }
 
@@ -77,7 +81,9 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                calculateProteins();
+                maxProteins = getMaxValue(editTextProteins);
+                percentageProteins = calculatePercentage(maxProteins, 4, txtPercentageProteins);
+                calculatePercentageTotal();
             }
 
             @Override
@@ -90,7 +96,9 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                calculateFats();
+                maxFats = getMaxValue(editTextFats);
+                percentageFats = calculatePercentage(maxFats, 9, txtPercentageFats);
+                calculatePercentageTotal();
             }
 
             @Override
@@ -103,7 +111,9 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                calculateCarbs();
+                maxCarbs = getMaxValue(editTextCarbs);
+                percentageCarbs = calculatePercentage(maxCarbs, 4, txtPercentageCarbs);
+                calculatePercentageTotal();
             }
 
             @Override
@@ -111,35 +121,21 @@ public class DailyGoalsActivity extends AppCompatActivity {
         });
     }
 
+    private Integer getMaxValue(EditText editText) {
+        Integer maxValue;
+        if (editText.getText().toString().equals("")){
+            maxValue = 0;
+        }
+        else {
+            maxValue = Integer.valueOf(editText.getText().toString());
+        }
+        return maxValue;
+    }
+
     private Integer calculatePercentage(Integer maxValue, Integer kcalInGram, TextView txtPercentage) {
         Integer percentage = maxValue * kcalInGram * 100 / maxKcal;
         txtPercentage.setText(percentage.toString());
         return percentage;
-    }
-
-    private void calculateProteins() {
-        if (editTextProteins.getText().toString().equals("")) {
-            maxProteins = 0;
-        } else {
-            maxProteins = Integer.valueOf(editTextProteins.getText().toString());
-        }
-        percentageProteins = maxProteins * 4 * 100 / maxKcal;
-        txtPercentageProteins.setText(percentageProteins.toString());
-        calculatePercentageTotal();
-    }
-
-    private void calculateFats() {
-        maxFats = Integer.valueOf(editTextFats.getText().toString());
-        percentageFats = maxFats * 9 * 100 / maxKcal;
-        txtPercentageFats.setText(percentageFats.toString());
-        calculatePercentageTotal();
-    }
-
-    private void calculateCarbs() {
-        maxCarbs = Integer.valueOf(editTextCarbs.getText().toString());
-        percentageCarbs = maxCarbs * 4 * 100 / maxKcal;
-        txtPercentageCarbs.setText(percentageCarbs.toString());
-        calculatePercentageTotal();
     }
 
     private void calculatePercentageTotal() {
@@ -170,5 +166,9 @@ public class DailyGoalsActivity extends AppCompatActivity {
         editTextProteins.setText(String.valueOf(maxProteins));
         editTextFats.setText(String.valueOf(maxFats));
         editTextCarbs.setText(String.valueOf(maxCarbs));
+        percentageProteins = calculatePercentage(maxProteins, 4, txtPercentageProteins);
+        percentageFats = calculatePercentage(maxFats, 9, txtPercentageFats);
+        percentageCarbs = calculatePercentage(maxCarbs, 4, txtPercentageCarbs);
+        calculatePercentageTotal();
     }
 }
