@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="133dp" />
+        app:layout_constraintGuide_begin="151dp" />
 
     <TextView
         android:id="@+id/textView21"
@@ -132,38 +132,35 @@
         android:id="@+id/btnSaveMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextMaxCarbs" />
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
-    <EditText
-        android:id="@+id/editTextPercentProtein"
-        android:layout_width="80dp"
+    <TextView
+        android:id="@+id/txtPercentageProteins"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/editTextMaxProtein"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/editTextMaxProtein" />
 
-    <EditText
-        android:id="@+id/editTextPercentFat"
-        android:layout_width="80dp"
+    <TextView
+        android:id="@+id/txtPercentageFats"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/editTextMaxFats"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/editTextMaxFats" />
 
-    <EditText
-        android:id="@+id/editTextPercentCarbs"
-        android:layout_width="80dp"
+    <TextView
+        android:id="@+id/txtPercentageCarbs"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/editTextMaxCarbs"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/editTextMaxCarbs" />
@@ -173,5 +170,87 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="262dp" />
+        app:layout_constraintGuide_begin="316dp" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Total:"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMaxCarbs" />
+
+    <TextView
+        android:id="@+id/txtPercentageTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/textView26"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/textView26" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="12dp"
+        android:text="Total % value of macronutrients must equal 100%"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="%"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPercentageProteins"
+        app:layout_constraintStart_toEndOf="@+id/txtPercentageProteins"
+        app:layout_constraintTop_toTopOf="@+id/txtPercentageProteins" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="%"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPercentageFats"
+        app:layout_constraintStart_toEndOf="@+id/txtPercentageFats"
+        app:layout_constraintTop_toTopOf="@+id/txtPercentageFats" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="%"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPercentageCarbs"
+        app:layout_constraintStart_toEndOf="@+id/txtPercentageCarbs"
+        app:layout_constraintTop_toTopOf="@+id/txtPercentageCarbs" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="%"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPercentageTotal"
+        app:layout_constraintStart_toEndOf="@+id/txtPercentageTotal"
+        app:layout_constraintTop_toTopOf="@+id/txtPercentageTotal" />
+
+    <TextView
+        android:id="@+id/txtTotalPercentageWarn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Please set correct values"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveMax" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

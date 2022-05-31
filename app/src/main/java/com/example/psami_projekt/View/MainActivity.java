@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.bottomFragmentContainerView, BottomKcalFragment.class, null)
                 .commit();
 
+        Utils.getInstance(this);
+
     }
 
     private void initViews() {
