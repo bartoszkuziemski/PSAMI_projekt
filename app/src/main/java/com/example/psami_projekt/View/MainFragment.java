@@ -20,9 +20,18 @@ import java.util.ArrayList;
 
 public class MainFragment extends Fragment implements MealAdapter.OnMealRecyclerListener {
 
+    public interface BottomFragmentListener {
+        void update();
+    }
+
+    private BottomFragmentListener bottomFragmentListener;
     private ProductsViewModel productsViewModel;
     private RecyclerView mealRecView;
     private MealAdapter mealAdapter;
+
+    public MainFragment(BottomKcalFragment bottomKcalFragment) {
+        this.bottomFragmentListener = bottomKcalFragment;
+    }
 
     @Nullable
     @Override
@@ -42,8 +51,6 @@ public class MainFragment extends Fragment implements MealAdapter.OnMealRecycler
         mealAdapter.setOnMealRecyclerListener(this);
         mealRecView.setAdapter(mealAdapter);
         mealRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
     }
 
     @Override
@@ -52,5 +59,6 @@ public class MainFragment extends Fragment implements MealAdapter.OnMealRecycler
         productsViewModel.deleteProductFromMeal(productId);
         mealAdapter.notifyDataSetChanged();
         mealAdapter.getProductInMealAdapter().notifyDataSetChanged();
+        bottomFragmentListener.update();
     }
 }

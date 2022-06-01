@@ -3,6 +3,7 @@ package com.example.psami_projekt.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,12 +41,24 @@ public class MainActivity extends AppCompatActivity {
 
         Utils.getInstance(this);
 
+        BottomKcalFragment bottomKcalFragment = new BottomKcalFragment();
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.mainFragmentContainerView, MainFragment.class, null)
+                .add(R.id.bottomFragmentContainerView, bottomKcalFragment, null)
+                .commit();
+
+        MainFragment mainFragment = new MainFragment(bottomKcalFragment);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.mainFragmentContainerView, mainFragment, null)
                 .commit();
 
 
+        setNavigation();
+
+    }
+
+    private void setNavigation() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -77,13 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.bottomFragmentContainerView, BottomKcalFragment.class, null)
-                .commit();
-
-
     }
 
     private void initViews() {
