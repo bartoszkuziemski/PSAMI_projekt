@@ -42,6 +42,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         holder.txtDay.setText(String.valueOf(days.get(position).getDayOfMonth()));
         if (!days.get(20).getMonth().equals(days.get(position).getMonth())) {
             holder.txtDay.setTextColor(ContextCompat.getColor(context, R.color.calendar_gray));
+        } else {
+            holder.txtDay.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         holder.txtDay.setOnClickListener(new View.OnClickListener() {
             @Override

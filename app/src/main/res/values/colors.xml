@@ -12,4 +12,5 @@
     <color name="gray">#888</color>
     <color name="calendar_gray">#BABABA</color>
     <color name="product_gray">#F2F5F7</color>
+    <color name="bottom_gray">#EBF7FF</color>
 </resources>
