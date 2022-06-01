@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         getDateFromCalendar();
 
+        Utils.getInstance(this);
+
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.mainFragmentContainerView, MainFragment.class, null)
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.bottomFragmentContainerView, BottomKcalFragment.class, null)
                 .commit();
 
-        Utils.getInstance(this);
 
     }
 

@@ -23,7 +23,7 @@ public class DailyGoalsActivity extends AppCompatActivity {
     private Button btnSave;
     private Integer maxKcal;
     private Integer maxProteins, maxFats, maxCarbs, percentageProteins = 0 , percentageFats = 0, percentageCarbs = 0, percentageTotal = 0;
-    private Utils utils = Utils.getInstance(this);
+    private final Utils utils = Utils.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,7 @@ public class DailyGoalsActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (editTextMaxKcal.getText().toString().equals("")) {
-                    maxKcal = 1; // set 1 in order to avoid dividing by 0
-                } else {
-                    maxKcal = Integer.valueOf(editTextMaxKcal.getText().toString());
-                }
+                maxKcal = getMaxValue(editTextMaxKcal);
                 percentageProteins = calculatePercentage(maxProteins, 4, txtPercentageProteins);
                 percentageFats = calculatePercentage(maxFats, 9, txtPercentageFats);
                 percentageCarbs = calculatePercentage(maxCarbs, 4, txtPercentageCarbs);
@@ -124,7 +120,7 @@ public class DailyGoalsActivity extends AppCompatActivity {
     private Integer getMaxValue(EditText editText) {
         Integer maxValue;
         if (editText.getText().toString().equals("")){
-            maxValue = 0;
+            maxValue = 1;
         }
         else {
             maxValue = Integer.valueOf(editText.getText().toString());

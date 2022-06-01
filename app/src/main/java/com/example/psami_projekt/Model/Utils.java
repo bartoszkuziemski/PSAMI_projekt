@@ -16,7 +16,6 @@ public final class Utils {
 
     private SharedPreferences sharedPreferences;
     private static Utils instance;
-    //private static Integer maxKcal, maxProteins, maxFats, maxCarbs;
 
     private static String date;
     private static String meal;

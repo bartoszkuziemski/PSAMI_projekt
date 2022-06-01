@@ -1,5 +1,7 @@
 package com.example.psami_projekt.View;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.psami_projekt.Model.Meal;
@@ -22,23 +25,47 @@ public class BottomKcalFragment extends Fragment {
     private ProductsViewModel productsViewModel;
     private TextView txtKcal, txtProtein, txtFats, txtCarbs;
     private TextView txtMaxKcal, txtMaxProtein, txtMaxFats, txtMaxCarbs;
+    private final Utils utils = Utils.getInstance(getContext());
+    private ProgressBar progressBarKcal, progressBarProteins, progressBarFats, progressBarCarbs;
+
+    private Integer kcal = 0;
+    private Double protein = 0.0, fats = 0.0, carbs = 0.0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bottom_kcal, container, false);
 
         initTxtFields(view);
-
         calculateFieldsInDay();
 
+        Integer maxKcal = utils.getMaxKcal();
+        Integer maxProteins = utils.getMaxProteins();
+        Integer maxFats = utils.getMaxFats();
+        Integer maxCarbs = utils.getMaxCarbs();
+
+        setTxtAndProgressBar(maxKcal, kcal, txtMaxKcal, progressBarKcal);
+        setTxtAndProgressBar(maxProteins, protein.intValue(), txtMaxProtein, progressBarProteins);
+        setTxtAndProgressBar(maxFats, fats.intValue(), txtMaxFats, progressBarFats);
+        setTxtAndProgressBar(maxCarbs, carbs.intValue(), txtMaxCarbs, progressBarCarbs);
+
+
         return view;
+    }
+
+    private void setTxtAndProgressBar(Integer maxValue, Integer value, TextView txtMaxValue, ProgressBar progressBar) {
+        txtMaxValue.setText(String.valueOf(maxValue));
+        progressBar.setMin(0);
+        progressBar.setMax(maxValue);
+        progressBar.setProgress(value);
+        if (value > maxValue) {
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
     }
 
     private void calculateFieldsInDay() {
         productsViewModel = new ProductsViewModel(getContext());
         ArrayList<ProductInMeal> products = productsViewModel.getProductsFromDay(Utils.getDate());
-        Integer kcal = 0;
-        Double protein = 0.0, fats = 0.0, carbs = 0.0;
+
         for (ProductInMeal product : products) {
             kcal += product.getKcal();
             protein += product.getProtein();
@@ -60,5 +87,9 @@ public class BottomKcalFragment extends Fragment {
         txtMaxProtein = view.findViewById(R.id.txtMaxProtein);
         txtMaxFats = view.findViewById(R.id.txtMaxFats);
         txtMaxCarbs = view.findViewById(R.id.txtMaxCarbs);
+        progressBarKcal = view.findViewById(R.id.progressBarKcal);
+        progressBarProteins = view.findViewById(R.id.progressBarProtein);
+        progressBarFats = view.findViewById(R.id.progressBarFats);
+        progressBarCarbs = view.findViewById(R.id.progressBarCarbs);
     }
 }
