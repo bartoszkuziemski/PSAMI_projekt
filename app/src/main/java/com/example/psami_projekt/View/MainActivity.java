@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.mainFragmentContainerView, mainFragment, null)
                 .commit();
 
+        Bundle bundle = new Bundle();
+        bundle.putString(CalendarActivity.DATE_ID_KEY, date);
+        TopFragment topFragment = new TopFragment();
+        topFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.topFragmentContainerView, topFragment, null)
+                .commit();
 
         setNavigation();
 
@@ -102,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void getDateFromCalendar() {
         Intent intent = getIntent();
-        String date;
         if (intent.getStringExtra(CalendarActivity.DATE_ID_KEY) != null) {
             date = intent.getStringExtra(CalendarActivity.DATE_ID_KEY);
         } else {

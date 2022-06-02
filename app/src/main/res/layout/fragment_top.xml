@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragmentTop"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue"
+    android:paddingBottom="10dp">
+
+    <!--========================== Monday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentMondayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="M"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentMondayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentMondayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentMondayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleMonday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentMondayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentMondayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentMondayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Tuesday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentTuesdayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="T"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentMondayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentTuesdayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleTuesday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentTuesdayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Wednesday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentWednesdayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="W"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/txtTopFragmentThursdayLetter"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentTuesdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentWednesdayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleWednesday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentWednesdayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Thursday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentThursdayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="T"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/txtTopFragmentWednesdayLetter"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentFridayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentThursdayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentThursdayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentThursdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleThursday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentThursdayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentThursdayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentThursdayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Friday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentFridayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="F"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentThursdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentFridayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentFridayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentFridayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleFriday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentFridayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentFridayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentFridayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Saturday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentSaturdayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/txtTopFragmentSundayLetter"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentFridayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentSaturdayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleSaturday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentSaturdayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+    <!--========================== Sunday =================================-->
+
+    <TextView
+        android:id="@+id/txtTopFragmentSundayLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtTopFragmentSaturdayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayLetters" />
+
+    <TextView
+        android:id="@+id/txtTopFragmentSundayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTopFragmentSundayLetter"
+        app:layout_constraintStart_toStartOf="@+id/txtTopFragmentSundayLetter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopFragmentDayNumbers" />
+
+    <ImageView
+        android:id="@+id/topFragmentCircleSunday"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_circle_outlined_white"
+        app:layout_constraintTop_toTopOf="@id/txtTopFragmentSundayLetter"
+        app:layout_constraintStart_toStartOf="@id/txtTopFragmentSundayLetter"
+        app:layout_constraintEnd_toEndOf="@id/txtTopFragmentSundayLetter"
+        android:layout_marginTop="-15dp"
+        android:visibility="gone"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopFragmentDayLetters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopFragmentDayNumbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="45dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ public final class Utils {
     }
 
     public Integer getMaxKcal() {
-        return sharedPreferences.getInt(MAX_KCAL, 1);
+        return sharedPreferences.getInt(MAX_KCAL, 3000);
     }
 
     public void setMaxKcal(Integer maxKcal) {
@@ -44,7 +44,7 @@ public final class Utils {
     }
 
     public Integer getMaxProteins() {
-        return sharedPreferences.getInt(MAX_PROTEINS, 1);
+        return sharedPreferences.getInt(MAX_PROTEINS, 150);
     }
 
     public void setMaxProteins(Integer maxProteins) {
@@ -54,7 +54,7 @@ public final class Utils {
     }
 
     public Integer getMaxFats() {
-        return sharedPreferences.getInt(MAX_FATS, 1);
+        return sharedPreferences.getInt(MAX_FATS, 100);
     }
 
     public void setMaxFats(Integer maxFats) {
@@ -64,7 +64,7 @@ public final class Utils {
     }
 
     public Integer getMaxCarbs() {
-        return sharedPreferences.getInt(MAX_CARBS, 1);
+        return sharedPreferences.getInt(MAX_CARBS, 380);
     }
 
     public void setMaxCarbs(Integer maxCarbs) {

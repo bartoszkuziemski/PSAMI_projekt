@@ -11,19 +11,49 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/topFragment"
+        <FrameLayout
+            android:id="@+id/topFragmentContainerView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/blue"/>
+            android:layout_height="wrap_content" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/topFragment"
+            app:layout_constraintTop_toBottomOf="@id/topFragmentContainerView"
             app:layout_constraintBottom_toTopOf="@id/bottomFragmentContainerView"
             android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="100dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="160dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="220dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -40,10 +70,25 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
-            android:id="@+id/bottomFragmentContainerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:elevation="1dp"
+            android:outlineProvider="bounds"
+            android:paddingTop="2dp"
+            android:layout_marginTop="-2dp"
+            android:paddingLeft="2dp"
+            android:layout_marginLeft="-2dp"
+            android:paddingRight="2dp"
+            android:layout_marginRight="-2dp">
+
+            <FrameLayout
+                android:id="@+id/bottomFragmentContainerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </FrameLayout>
+
 
     </LinearLayout>
 
