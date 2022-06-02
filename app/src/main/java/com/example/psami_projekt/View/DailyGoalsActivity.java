@@ -28,6 +28,7 @@ public class DailyGoalsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_PSAMI_projekt_WithActionBar);
         setContentView(R.layout.activity_daily_goals);
 
         initViews();

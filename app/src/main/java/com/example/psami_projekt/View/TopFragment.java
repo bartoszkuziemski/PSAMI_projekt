@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,20 +15,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.psami_projekt.R;
 
-import org.w3c.dom.Text;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class TopFragment extends Fragment {
 
     private TextView txtMonday, txtTuesday, txtWednesday, txtThursday, txtFriday, txtSaturday, txtSunday;
     private ImageView circleMonday, circleTuesday, circleWednesday, circleThursday, circleFriday, circleSaturday, circleSunday;
+    private ImageButton btnPreviousWeek, btnNextWeek;
     private LocalDate chosenDate;
+    private Integer dayOfWeek;
 
     @Nullable
     @Override
@@ -35,45 +34,85 @@ public class TopFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top, container, false);
 
         initViews(view);
+        setChosenDate();
+        setImageViewsVisibility();
+        setTextViews();
+        setButtonsListeners();
 
-        String chosenDateStr = getArguments().getString(CalendarActivity.DATE_ID_KEY);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        chosenDate = LocalDate.parse(chosenDateStr, formatter);
-        Integer dayOfWeekOfChosenDate = chosenDate.getDayOfWeek().getValue();
-        ArrayList<ImageView> imageViews = new ArrayList<>(Arrays.asList(circleMonday, circleTuesday, circleWednesday, circleThursday, circleFriday, circleSaturday, circleSunday));
-        for (int i = 0; i <= 6; i++) {
-            if (dayOfWeekOfChosenDate.equals(i + 1)) {
-                imageViews.get(i).setVisibility(View.VISIBLE);
-            } else {
-                imageViews.get(i).setVisibility(View.GONE);
+        return view;
+    }
+
+    private void setButtonsListeners() {
+        btnPreviousWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newDate = chosenDate.minusDays(dayOfWeek).toString();
+                startNewActivity(newDate);
             }
-        }
+        });
+        btnNextWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newDate = chosenDate.plusDays(7 - dayOfWeek + 1).toString();
+                startNewActivity(newDate);
+            }
+        });
+    }
 
-        Integer dayOfWeek = chosenDate.getDayOfWeek().getValue();
+    /**
+     * Set array of days to display at the top
+     * Set textViews for all 7 days
+     * Set onClickListeners for all 7 days
+     * Send date by intent to MainActivity
+     */
+    private void setTextViews() {
         ArrayList<LocalDate> dates = new ArrayList<>();
         for (int i = 1; i <= 7; i++) {
             dates.add(chosenDate.plusDays(i - dayOfWeek));
         }
 
-        ArrayList<TextView> textViews = new ArrayList<>();
-        textViews.addAll(Arrays.asList(txtMonday, txtTuesday, txtWednesday, txtThursday, txtFriday, txtSaturday, txtSunday));
-
-
+        ArrayList<TextView> textViews = new ArrayList<>(Arrays.asList(txtMonday, txtTuesday, txtWednesday, txtThursday, txtFriday, txtSaturday, txtSunday));
         for (int i = 0; i < textViews.size(); i++) {
             textViews.get(i).setText(dates.get(i).format(DateTimeFormatter.ofPattern("d")));
             int finalI = i;
             textViews.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    imageViews.get(dayOfWeekOfChosenDate - 1).setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.putExtra(CalendarActivity.DATE_ID_KEY, dates.get(finalI).toString());
-                    startActivity(intent);
+                    String newDate = dates.get(finalI).toString();
+                    startNewActivity(newDate);
                 }
             });
         }
+    }
 
-        return view;
+    private void startNewActivity(String newDate) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(CalendarActivity.DATE_ID_KEY, newDate);
+        startActivity(intent);
+    }
+
+    /**
+     * Set visibility of the circle around chosen date
+     */
+    private void setImageViewsVisibility() {
+        ArrayList<ImageView> imageViews = new ArrayList<>(Arrays.asList(circleMonday, circleTuesday, circleWednesday, circleThursday, circleFriday, circleSaturday, circleSunday));
+        for (int i = 0; i <= 6; i++) {
+            if (dayOfWeek.equals(i + 1)) {
+                imageViews.get(i).setVisibility(View.VISIBLE);
+            } else {
+                imageViews.get(i).setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * Set the chosen date and and calculate what day of week it is
+     */
+    private void setChosenDate() {
+        String chosenDateStr = getArguments().getString(CalendarActivity.DATE_ID_KEY);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        chosenDate = LocalDate.parse(chosenDateStr, formatter);
+        dayOfWeek = chosenDate.getDayOfWeek().getValue();
     }
 
     private void initViews(View view) {
@@ -91,5 +130,7 @@ public class TopFragment extends Fragment {
         circleFriday = view.findViewById(R.id.topFragmentCircleFriday);
         circleSaturday = view.findViewById(R.id.topFragmentCircleSaturday);
         circleSunday = view.findViewById(R.id.topFragmentCircleSunday);
+        btnPreviousWeek = view.findViewById(R.id.btnTopFragmentPrevious);
+        btnNextWeek = view.findViewById(R.id.btnTopFragmentNext);
     }
 }
