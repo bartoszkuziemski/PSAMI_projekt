@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 public class TopFragment extends Fragment {
 
-    private TextView txtMonday, txtTuesday, txtWednesday, txtThursday, txtFriday, txtSaturday, txtSunday;
+    private TextView txtMonday, txtTuesday, txtWednesday, txtThursday, txtFriday, txtSaturday, txtSunday, txtYearMonth;
     private ImageView circleMonday, circleTuesday, circleWednesday, circleThursday, circleFriday, circleSaturday, circleSunday;
     private ImageButton btnPreviousWeek, btnNextWeek;
     private LocalDate chosenDate;
@@ -107,12 +107,16 @@ public class TopFragment extends Fragment {
 
     /**
      * Set the chosen date and and calculate what day of week it is
+     * Set year and month at the top of activity
      */
     private void setChosenDate() {
         String chosenDateStr = getArguments().getString(CalendarActivity.DATE_ID_KEY);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         chosenDate = LocalDate.parse(chosenDateStr, formatter);
         dayOfWeek = chosenDate.getDayOfWeek().getValue();
+
+        DateTimeFormatter yearMonthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        txtYearMonth.setText(chosenDate.format(yearMonthFormatter));
     }
 
     private void initViews(View view) {
@@ -132,5 +136,6 @@ public class TopFragment extends Fragment {
         circleSunday = view.findViewById(R.id.topFragmentCircleSunday);
         btnPreviousWeek = view.findViewById(R.id.btnTopFragmentPrevious);
         btnNextWeek = view.findViewById(R.id.btnTopFragmentNext);
+        txtYearMonth = view.findViewById(R.id.topFragmentYearMonth);
     }
 }

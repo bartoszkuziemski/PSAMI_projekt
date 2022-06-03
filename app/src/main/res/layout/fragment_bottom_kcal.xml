@@ -13,10 +13,10 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/progressBarProtein"/>
 
     <TextView
         android:id="@+id/textViewRawBottomKcal"
@@ -65,9 +65,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarKcal"
-        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal"
+        app:layout_constraintEnd_toStartOf="@id/progressBarFats"/>
 
     <TextView
         android:id="@+id/textViewRawBottomProtein"
@@ -114,9 +114,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarProtein"
-        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal"
+        app:layout_constraintEnd_toStartOf="@id/progressBarCarbs"/>
 
     <TextView
         android:id="@+id/textViewRawBottomFats"
@@ -163,9 +163,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/progressBarFats"
-        app:layout_constraintTop_toTopOf="@+id/progressBarKcal" />
+        app:layout_constraintTop_toTopOf="@+id/progressBarKcal"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/textViewRawBottomCarbs"

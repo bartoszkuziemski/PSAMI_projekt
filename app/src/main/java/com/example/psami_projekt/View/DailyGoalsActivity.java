@@ -155,7 +155,6 @@ public class DailyGoalsActivity extends BaseActivity {
 
     private Integer getMaxValue(EditText editText) {
         Integer maxValue;
-        if (editText.getText().toString().equals("")){
         if (editText.getText().toString().equals("")) {
             maxValue = 1;
         } else {
