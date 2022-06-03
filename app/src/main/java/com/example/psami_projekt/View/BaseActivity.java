@@ -1,19 +1,22 @@
 package com.example.psami_projekt.View;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.example.psami_projekt.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
-public class BaseActivity extends AppCompatActivity {
+import java.util.Objects;
+
+public abstract class BaseActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -68,7 +71,14 @@ public class BaseActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
     }
 
-    public DrawerLayout getDrawerLayout() {
-        return drawerLayout;
+    /**
+     * Set toolbar and drawer toggle for child activity
+     */
+    protected void setToolbar(Activity activity, MaterialToolbar toolbar, String title) {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
     }
 }

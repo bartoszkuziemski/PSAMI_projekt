@@ -1,25 +1,20 @@
 package com.example.psami_projekt.View;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.CalendarAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CalendarActivity extends BaseActivity {
 
@@ -40,25 +35,13 @@ public class CalendarActivity extends BaseActivity {
         currentDate = LocalDate.now();
 
         initViews();
-        setToolbar();
+        super.setToolbar(this, toolbar, "Choose date");
         initRecyclerView();
         setMonthDays();
         setOnClickListeners();
 
         calendarAdapter.setDays(getDaysInMonth());
 
-    }
-
-    /**
-     * Set toolbar and drawer toggle
-     * super.getDrawer comes from BaseActivity
-     */
-    private void setToolbar() {
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Choose date");
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, super.getDrawerLayout(), toolbar, R.string.drawer_open, R.string.drawer_closed);
-        super.getDrawerLayout().addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
     }
 
     private void setOnClickListeners() {
@@ -82,6 +65,10 @@ public class CalendarActivity extends BaseActivity {
         setMonthDays();
     }
 
+    /**
+     * Get Array of all cells to display in calendar (7 x 6) based on current date
+     * @return Array of days to display
+     */
     private ArrayList<LocalDate> getDaysInMonth() {
         ArrayList<LocalDate> daysInMonth = new ArrayList<>();
 

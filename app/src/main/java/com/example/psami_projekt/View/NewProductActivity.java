@@ -1,34 +1,43 @@
 package com.example.psami_projekt.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 
-public class NewProductActivity extends AppCompatActivity {
+import java.util.Objects;
+
+public class NewProductActivity extends BaseActivity {
 
     private final ProductsViewModel productsViewModel = new ProductsViewModel(this);
-
     private EditText editTextName, editTextDescription, editTextProtein, editTextFat, editTextCarbs;
     private Button btnNewProduct;
     private TextView txtAlert;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_product);
+        FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
+        getLayoutInflater().inflate(R.layout.activity_new_product, contentFrameLayout);
 
         initViews();
+        super.setToolbar(this, toolbar, "Add new product");
+        setOnClickListeners();
 
+    }
 
+    private void setOnClickListeners() {
         btnNewProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,8 +60,6 @@ public class NewProductActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void initViews() {
@@ -63,12 +70,8 @@ public class NewProductActivity extends AppCompatActivity {
         editTextCarbs = findViewById(R.id.newProductCarbs);
         btnNewProduct = findViewById(R.id.btnNewProduct);
         txtAlert = findViewById(R.id.newProductAlert);
+        toolbar = findViewById(R.id.newProductActivityToolbar);
         txtAlert.setVisibility(View.GONE);
     }
 
-    private void checkEditText(EditText editText) {
-        if (editText.getText().toString().equals("")) {
-            txtAlert.setVisibility(View.VISIBLE);
-        }
-    }
 }

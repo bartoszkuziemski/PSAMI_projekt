@@ -17,6 +17,7 @@ import com.example.psami_projekt.R;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BottomKcalFragment extends Fragment implements MainFragment.BottomFragmentListener {
 
@@ -85,9 +86,9 @@ public class BottomKcalFragment extends Fragment implements MainFragment.BottomF
     private void setProgressBarValue(Integer maxValue, Integer value, ProgressBar progressBar) {
         progressBar.setProgress(value);
         if (value > maxValue) {
-            progressBar.setProgressTintList(ContextCompat.getColorStateList(getContext(), R.color.red));
+            progressBar.setProgressTintList(ContextCompat.getColorStateList(requireContext(), R.color.red));
         } else {
-            progressBar.setProgressTintList(ContextCompat.getColorStateList(getContext(), R.color.blue));
+            progressBar.setProgressTintList(ContextCompat.getColorStateList(requireContext(), R.color.blue));
         }
     }
 

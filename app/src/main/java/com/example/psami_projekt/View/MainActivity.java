@@ -16,7 +16,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Set FrameLayout with BaseActivity to include Drawer,                 previously: setContentView(R.layout.activity_main);
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.activity_main, contentFrameLayout);
 

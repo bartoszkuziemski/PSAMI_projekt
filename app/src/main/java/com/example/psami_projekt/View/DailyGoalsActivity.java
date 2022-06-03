@@ -34,18 +34,13 @@ public class DailyGoalsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set FrameLayout with BaseActivity to include Drawer,                 previously: setContentView(R.layout.activity_daily_goals);
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.activity_daily_goals, contentFrameLayout);
 
         initViews();
-
-        setToolbar();
-
+        super.setToolbar(this, toolbar, "Set daily goals");
         setFieldsFromUtils();
-
         setTextChangedListeners();
-
         setOnClickListeners();
 
     }
@@ -67,19 +62,6 @@ public class DailyGoalsActivity extends BaseActivity {
             }
         });
     }
-
-    /**
-     * Set toolbar and drawer toggle
-     * super.getDrawer comes from BaseActivity
-     */
-    private void setToolbar() {
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Daily goals");
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, super.getDrawerLayout(), toolbar, R.string.drawer_open, R.string.drawer_closed);
-        super.getDrawerLayout().addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-    }
-
 
     private void setTextChangedListeners() {
         editTextMaxKcal.addTextChangedListener(new TextWatcher() {

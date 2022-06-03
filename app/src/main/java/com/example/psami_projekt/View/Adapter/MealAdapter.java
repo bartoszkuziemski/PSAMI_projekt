@@ -120,10 +120,10 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements ProductInMealAdapter.OnProductRecyclerListener{
 
-        private TextView txtMealName, txtMealKcal, txtMealProtein, txtMealFats, txtMealCarbs;
-        private FloatingActionButton fabAddMeal;
-        private ConstraintLayout parent;
-        private RecyclerView productRecView;
+        private final TextView txtMealName, txtMealKcal, txtMealProtein, txtMealFats, txtMealCarbs;
+        private final FloatingActionButton fabAddMeal;
+        private final ConstraintLayout parent;
+        private final RecyclerView productRecView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

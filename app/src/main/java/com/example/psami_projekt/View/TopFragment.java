@@ -112,6 +112,7 @@ public class TopFragment extends Fragment {
      * Set year and month at the top of activity
      */
     private void setChosenDate() {
+        if (getArguments() == null) return;
         String chosenDateStr = getArguments().getString(CalendarActivity.DATE_ID_KEY);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         chosenDate = LocalDate.parse(chosenDateStr, formatter);
