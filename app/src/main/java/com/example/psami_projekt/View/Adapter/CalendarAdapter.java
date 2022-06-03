@@ -1,5 +1,6 @@
 package com.example.psami_projekt.View.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
     private ArrayList<LocalDate> days = new ArrayList<>();
-    private Context context;
+    private final Context context;
 
     public CalendarAdapter(Context context) {
         this.context = context;
@@ -51,6 +52,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(CalendarActivity.DATE_ID_KEY, days.get(holder.getAbsoluteAdapterPosition()).toString());
                 context.startActivity(intent);
+                ((Activity) context).finishAffinity();
             }
         });
     }
@@ -65,7 +67,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         return days.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDay;
 
         public ViewHolder(@NonNull View itemView) {

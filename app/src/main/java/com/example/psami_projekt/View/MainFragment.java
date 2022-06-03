@@ -24,7 +24,7 @@ public class MainFragment extends Fragment implements MealAdapter.OnMealRecycler
         void update();
     }
 
-    private BottomFragmentListener bottomFragmentListener;
+    private final BottomFragmentListener bottomFragmentListener;
     private ProductsViewModel productsViewModel;
     private RecyclerView mealRecView;
     private MealAdapter mealAdapter;

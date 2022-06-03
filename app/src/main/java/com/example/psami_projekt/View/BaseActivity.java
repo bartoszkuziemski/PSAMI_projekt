@@ -32,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
                     case R.id.mealPlan:
                         Intent intentMain = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intentMain);
+                        finishAffinity();
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.calendar:

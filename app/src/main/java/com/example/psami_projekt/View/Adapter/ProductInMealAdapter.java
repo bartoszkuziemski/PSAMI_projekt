@@ -24,12 +24,12 @@ import java.util.ArrayList;
 public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdapter.ViewHolder> {
 
     private ArrayList<ProductInMeal> products = new ArrayList<>();
-    private Context context;
+    private final Context context;
 
     public interface OnProductRecyclerListener {
         void deleteProduct(int position);
     }
-    private OnProductRecyclerListener onProductRecyclerListener;
+    private final OnProductRecyclerListener onProductRecyclerListener;
 
     public ProductInMealAdapter(Context context, OnProductRecyclerListener onProductRecyclerListener) {
         this.context = context;
@@ -87,7 +87,7 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         return products.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView txtProductName, txtGrams, txtKcal, txtProtein, txtFat, txtCarbs;
         private final ImageButton btnDelete;

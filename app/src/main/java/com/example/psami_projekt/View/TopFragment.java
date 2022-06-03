@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TopFragment extends Fragment {
 
@@ -89,6 +90,7 @@ public class TopFragment extends Fragment {
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.putExtra(CalendarActivity.DATE_ID_KEY, newDate);
         startActivity(intent);
+        requireActivity().finishAffinity();
     }
 
     /**

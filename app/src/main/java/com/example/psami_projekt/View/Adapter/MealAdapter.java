@@ -113,11 +113,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         holder.productRecView.setLayoutManager(new LinearLayoutManager(context));
     }
 
-//    public void setMeals(ArrayList<Meal> meals) {
-//        this.meals = meals;
-//        notifyDataSetChanged();
-//    }
-
     @Override
     public int getItemCount() {
         return meals.size();

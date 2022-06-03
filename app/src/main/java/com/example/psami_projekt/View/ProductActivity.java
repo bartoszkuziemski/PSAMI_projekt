@@ -65,6 +65,7 @@ public class ProductActivity extends AppCompatActivity {
                     Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                     mainIntent.putExtra(CalendarActivity.DATE_ID_KEY, Utils.getDate());
                     startActivity(mainIntent);
+                    finishAffinity();
                 }
             }
         });
