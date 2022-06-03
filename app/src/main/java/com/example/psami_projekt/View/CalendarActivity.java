@@ -1,60 +1,69 @@
 package com.example.psami_projekt.View;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.CalendarAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends BaseActivity {
 
     public static final String DATE_ID_KEY = "dateId";
     private RecyclerView calendarRecView;
     private CalendarAdapter calendarAdapter;
     private TextView txtMonthAndYear;
     private ImageButton btnPreviousMonth, btnNextMonth;
-    LocalDate currentDate;
+    private LocalDate currentDate;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
+        getLayoutInflater().inflate(R.layout.activity_calendar, contentFrameLayout);
 
         currentDate = LocalDate.now();
 
         initViews();
+        setToolbar();
         initRecyclerView();
         setMonthDays();
+        setOnClickListeners();
 
-        ArrayList<LocalDate> days = getDaysInMonth();
-        if (days != null) {
-            calendarAdapter.setDays(days);
-        }
+        calendarAdapter.setDays(getDaysInMonth());
 
-        btnNextMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextMonth();
-            }
-        });
-        btnPreviousMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                previousMonth();
-            }
-        });
+    }
 
+    /**
+     * Set toolbar and drawer toggle
+     * super.getDrawer comes from BaseActivity
+     */
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Choose date");
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, super.getDrawerLayout(), toolbar, R.string.drawer_open, R.string.drawer_closed);
+        super.getDrawerLayout().addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+    }
+
+    private void setOnClickListeners() {
+        btnNextMonth.setOnClickListener(view -> nextMonth());
+        btnPreviousMonth.setOnClickListener(view -> previousMonth());
     }
 
     private void setMonthDays() {
@@ -75,9 +84,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private ArrayList<LocalDate> getDaysInMonth() {
         ArrayList<LocalDate> daysInMonth = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(currentDate);
 
-        int numberOfDays = yearMonth.lengthOfMonth();
         LocalDate firstOfMonth = currentDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
@@ -103,6 +110,7 @@ public class CalendarActivity extends AppCompatActivity {
         txtMonthAndYear = findViewById(R.id.txtCalendarMonth);
         btnNextMonth = findViewById(R.id.btnCalendarNextMonth);
         btnPreviousMonth = findViewById(R.id.btnCalendarPreviousMonth);
+        toolbar = findViewById(R.id.calendarToolbar);
     }
 
 }

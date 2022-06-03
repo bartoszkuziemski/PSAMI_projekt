@@ -10,11 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PSAMI_projekt">
         <activity
+            android:name=".View.BaseActivity"
+            android:exported="false"
+            android:launchMode="singleTask"/>
+        <activity
             android:name=".View.DailyGoalsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".View.CalendarActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".View.ProductActivity"
             android:exported="false" />

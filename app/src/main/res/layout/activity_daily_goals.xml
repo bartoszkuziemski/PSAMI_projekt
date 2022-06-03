@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".View.DailyGoalsActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/dailyGoalsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue"/>
+
     <EditText
         android:id="@+id/editTextMaxKcal"
         android:layout_width="80dp"
