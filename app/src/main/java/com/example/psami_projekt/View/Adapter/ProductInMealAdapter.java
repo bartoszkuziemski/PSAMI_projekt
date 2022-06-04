@@ -3,6 +3,7 @@ package com.example.psami_projekt.View.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.ProductActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
@@ -55,6 +57,16 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
         holder.txtCarbs.setText(carbs);
         holder.txtGrams.setText(String.valueOf(products.get(position).getGrams()));
 
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProductActivity.class);
+                intent.putExtra(ProductActivity.PRODUCT_ID_KEY, products.get(holder.getAbsoluteAdapterPosition()).getId());
+                intent.putExtra(ProductActivity.PRODUCT_IN_MEAL_ID_KEY, products.get(holder.getAbsoluteAdapterPosition()).getIdInMealDB());
+                context.startActivity(intent);
+            }
+        });
+
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +75,7 @@ public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdap
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        onProductRecyclerListener.deleteProduct(products.get(holder.getAbsoluteAdapterPosition()).getId());
+                        onProductRecyclerListener.deleteProduct(products.get(holder.getAbsoluteAdapterPosition()).getIdInMealDB());
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

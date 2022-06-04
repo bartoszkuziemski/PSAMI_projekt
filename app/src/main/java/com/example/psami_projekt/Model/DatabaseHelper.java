@@ -285,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         checkMealTableExist();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? ;", new String[]{date});
+        Cursor cursor = db.rawQuery("select ProductId, meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? ;", new String[]{date});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
         return products;
@@ -293,7 +293,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
+        Cursor cursor = db.rawQuery("select ProductId, meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
         return products;
@@ -303,7 +303,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<ProductInMeal> products = new ArrayList<>();
         while (cursor.moveToNext()) {
             ProductInMeal product = new ProductInMeal();
-            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
+            product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("ProductId")));
+            product.setIdInMealDB(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
             int grams = cursor.getInt(cursor.getColumnIndexOrThrow("Grams"));
@@ -330,6 +331,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deletedRows > 0;
     }
 
+    public void editProductInMeal(int idInMealDB, Integer grams) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("update meal set Grams = ? where rowid = ?", new Integer[]{grams, idInMealDB});
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -339,6 +349,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+
 
 
 }
