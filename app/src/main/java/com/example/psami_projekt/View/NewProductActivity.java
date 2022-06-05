@@ -8,14 +8,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
-
-import java.util.Objects;
 
 public class NewProductActivity extends BaseActivity {
 

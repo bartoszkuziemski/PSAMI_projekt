@@ -1,4 +1,4 @@
-package com.example.psami_projekt.View;
+package com.example.psami_projekt.View.MainScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.BaseActivity;
+import com.example.psami_projekt.View.CalendarActivity;
 
 import java.time.LocalDate;
 

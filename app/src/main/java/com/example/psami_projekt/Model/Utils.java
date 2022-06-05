@@ -3,9 +3,7 @@ package com.example.psami_projekt.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
+import com.example.psami_projekt.Model.Listeners.OnProductRecyclerListener;
 
 public final class Utils {
 
@@ -14,13 +12,20 @@ public final class Utils {
     private static final String MAX_FATS = "max_fats";
     private static final String MAX_CARBS = "max_carbs";
 
-    private SharedPreferences sharedPreferences;
-    private static Utils instance;
-
+    private static OnProductRecyclerListener onProductRecyclerListener;
     private static String date;
     private static String meal;
 
+    private SharedPreferences sharedPreferences;
+    private static Utils instance;
 
+    public static OnProductRecyclerListener getOnProductRecyclerListener() {
+        return onProductRecyclerListener;
+    }
+
+    public static void setOnProductRecyclerListener(OnProductRecyclerListener onProductRecyclerListener) {
+        Utils.onProductRecyclerListener = onProductRecyclerListener;
+    }
 
     private Utils(Context context) {
         sharedPreferences = context.getSharedPreferences("max_kcal", Context.MODE_PRIVATE);
@@ -80,6 +85,7 @@ public final class Utils {
     public static void setMeal(String meal) {
         Utils.meal = meal;
     }
+
     public static String getDate() {
         return date;
     }

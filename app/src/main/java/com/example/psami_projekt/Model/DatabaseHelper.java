@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, null, null, null, null, null, String.valueOf(START_PRODUCTS_LIMIT));
+        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "rowid % 150 = 0", null, null, null, null, String.valueOf(START_PRODUCTS_LIMIT));
 
         ArrayList<Product> products = setProductFields(cursor);
         db.close();
@@ -227,11 +227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("DataCarbohydrate", carbs);
         long result = db.insert("food", null, values);
         db.close();
-        if (result < 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return result >= 0;
     }
 
     /**
@@ -244,6 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Cursor cursor = db.rawQuery("DELETE FROM food WHERE rowid = ?", new String[] {String.valueOf(id)});
         int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
+        db.delete(MEAL_TABLE_NAME, "ProductId = ?", new String[]{String.valueOf(id)});
         db.close();
         return deletedRows > 0;
     }

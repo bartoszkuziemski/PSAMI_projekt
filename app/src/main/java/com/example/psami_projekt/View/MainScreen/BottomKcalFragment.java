@@ -1,25 +1,24 @@
-package com.example.psami_projekt.View;
+package com.example.psami_projekt.View.MainScreen;
 
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.example.psami_projekt.Model.Listeners.BottomFragmentListener;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class BottomKcalFragment extends Fragment implements MainFragment.BottomFragmentListener {
+public class BottomKcalFragment extends Fragment implements BottomFragmentListener {
 
     private ProductsViewModel productsViewModel;
     private TextView txtKcal, txtProtein, txtFats, txtCarbs;

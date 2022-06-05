@@ -1,4 +1,4 @@
-package com.example.psami_projekt.View;
+package com.example.psami_projekt.View.MainScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.CalendarActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class TopFragment extends Fragment {
 

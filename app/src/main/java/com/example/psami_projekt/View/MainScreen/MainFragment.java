@@ -1,4 +1,4 @@
-package com.example.psami_projekt.View;
+package com.example.psami_projekt.View.MainScreen;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,18 +11,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.psami_projekt.Model.Listeners.BottomFragmentListener;
 import com.example.psami_projekt.Model.Meal;
+import com.example.psami_projekt.Model.Listeners.OnMealRecyclerListener;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.Adapter.MealAdapter;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
 
-public class MainFragment extends Fragment implements MealAdapter.OnMealRecyclerListener {
-
-    public interface BottomFragmentListener {
-        void update();
-    }
+public class MainFragment extends Fragment implements OnMealRecyclerListener {
 
     private final BottomFragmentListener bottomFragmentListener;
     private ProductsViewModel productsViewModel;

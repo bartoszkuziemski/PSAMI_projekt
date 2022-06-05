@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.Model.Meal;
+import com.example.psami_projekt.Model.Listeners.OnMealRecyclerListener;
+import com.example.psami_projekt.Model.Listeners.OnProductRecyclerListener;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
@@ -25,12 +27,7 @@ import java.util.ArrayList;
 
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
-    public interface OnMealRecyclerListener {
-        void deleteProduct(int productPosition, int mealPosition);
-    }
-
     private OnMealRecyclerListener onMealRecyclerListener;
-
     private final ProductsViewModel productsViewModel;
     private final Context context;
     private ArrayList<ProductInMeal> products;
@@ -54,11 +51,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         initProductInMealRecView(holder);
-
         calculateFieldsInMeal(holder);
-
         setTxtFields(holder, position);
-
 
         holder.fabAddMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +112,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         return meals.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements ProductInMealAdapter.OnProductRecyclerListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnProductRecyclerListener {
 
         private final TextView txtMealName, txtMealKcal, txtMealProtein, txtMealFats, txtMealCarbs;
         private final FloatingActionButton fabAddMeal;

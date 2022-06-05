@@ -1,7 +1,5 @@
 package com.example.psami_projekt.View;
 
-import androidx.appcompat.app.AlertDialog;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +10,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.example.psami_projekt.Model.Listeners.OnProductRecyclerListener;
 import com.example.psami_projekt.Model.Product;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
+import com.example.psami_projekt.View.MainScreen.MainActivity;
 import com.example.psami_projekt.ViewModel.ProductsViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +34,7 @@ public class ProductActivity extends BaseActivity {
     private EditText editTextHowManyGrams;
     private Button btnDelete;
     private MaterialToolbar toolbar;
+    private OnProductRecyclerListener onProductRecyclerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class ProductActivity extends BaseActivity {
         if (intent != null) {
             this.id = intent.getIntExtra(PRODUCT_ID_KEY, -1);
             this.idInMealDB = intent.getIntExtra(PRODUCT_IN_MEAL_ID_KEY, -1);
+            this.onProductRecyclerListener = Utils.getOnProductRecyclerListener();
         }
     }
 
@@ -107,6 +111,7 @@ public class ProductActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (productsViewModel.deleteFromDatabase(ProductActivity.this.id)) {
+                            onProductRecyclerListener.deleteProduct(ProductActivity.this.id);
                             Toast.makeText(ProductActivity.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {

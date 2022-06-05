@@ -9,33 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.psami_projekt.Model.Listeners.OnProductRecyclerListener;
 import com.example.psami_projekt.Model.ProductInMeal;
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.ProductActivity;
-import com.example.psami_projekt.ViewModel.ProductsViewModel;
 
 import java.util.ArrayList;
 
 public class ProductInMealAdapter extends RecyclerView.Adapter<ProductInMealAdapter.ViewHolder> {
 
-    private ArrayList<ProductInMeal> products = new ArrayList<>();
-    private final Context context;
-
-    public interface OnProductRecyclerListener {
-        void deleteProduct(int position);
-    }
     private final OnProductRecyclerListener onProductRecyclerListener;
+    private final Context context;
+    private ArrayList<ProductInMeal> products = new ArrayList<>();
 
     public ProductInMealAdapter(Context context, OnProductRecyclerListener onProductRecyclerListener) {
         this.context = context;
         this.onProductRecyclerListener = onProductRecyclerListener;
+        Utils.setOnProductRecyclerListener(onProductRecyclerListener);
     }
 
     @NonNull

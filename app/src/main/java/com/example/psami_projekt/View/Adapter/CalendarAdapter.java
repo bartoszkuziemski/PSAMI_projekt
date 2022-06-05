@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.psami_projekt.R;
 import com.example.psami_projekt.View.CalendarActivity;
-import com.example.psami_projekt.View.MainActivity;
+import com.example.psami_projekt.View.MainScreen.MainActivity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

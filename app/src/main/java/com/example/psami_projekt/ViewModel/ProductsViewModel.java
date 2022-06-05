@@ -66,4 +66,5 @@ public class ProductsViewModel extends ViewModel {
     public void editProductInMeal(int idInMealDB, Integer grams) {
         databaseHelper.editProductInMeal(idInMealDB, grams);
     }
+
 }
