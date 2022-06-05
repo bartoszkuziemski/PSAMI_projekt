@@ -128,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getProductsByName(String name) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[]{"%" + name + "%"}, null, null, null, String.valueOf(SEARCH_PRODUCTS_LIMIT));
+        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[]{"%" + name + "%"}, null, null, "Category", String.valueOf(SEARCH_PRODUCTS_LIMIT));
 
         ArrayList<Product> products = setProductFields(cursor);
         db.close();

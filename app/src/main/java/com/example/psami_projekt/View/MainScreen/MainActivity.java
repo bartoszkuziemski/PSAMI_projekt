@@ -61,9 +61,4 @@ public class MainActivity extends BaseActivity {
         }
         Utils.setDate(date);
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }
