@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.psami_projekt.Model.DatabaseHelper;
 import com.example.psami_projekt.Model.Product;
+import com.example.psami_projekt.Model.ProductBase;
 import com.example.psami_projekt.Model.ProductInMeal;
 
 import java.util.ArrayList;
@@ -51,8 +52,8 @@ public class ProductsViewModel extends ViewModel {
         return products;
     }
 
-    public ArrayList<ProductInMeal> getProductsFromDay(String date) {
-        return databaseHelper.getProductsFromDay(date);
+    public ProductBase getKcalFromDay(String date) {
+        return databaseHelper.getKcalFromDay(date);
     }
 
     public boolean addProductToMeal(String date, String meal, int productId, Integer grams) {

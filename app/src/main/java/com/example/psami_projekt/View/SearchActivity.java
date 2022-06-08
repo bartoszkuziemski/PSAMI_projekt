@@ -58,12 +58,7 @@ public class SearchActivity extends AppCompatActivity {
      * init search db after text in searchBox has changed
      */
     private void setSearchListeners() {
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initSearch();
-            }
-        });
+        btnSearch.setOnClickListener(view -> initSearch());
 
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override

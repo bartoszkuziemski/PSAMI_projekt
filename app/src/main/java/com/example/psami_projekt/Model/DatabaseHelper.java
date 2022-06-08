@@ -3,16 +3,10 @@ package com.example.psami_projekt.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-
-
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.psami_projekt.View.Adapter.ProductInMealAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -112,8 +106,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "rowid % 150 = 0", null, null, null, null, String.valueOf(START_PRODUCTS_LIMIT));
-
+        String query = "select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, (DataProtein + DataCarbohydrate) * 4 + (DataFatTotalLipid * 9) as Kcal\n" +
+                "from food \n" +
+                "where rowid % 150 = 0\n" +
+                "limit ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(START_PRODUCTS_LIMIT)});
         ArrayList<Product> products = setProductFields(cursor);
         db.close();
         return products;
@@ -126,10 +123,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return products that contain name
      */
     public ArrayList<Product> getProductsByName(String name) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("food", new String[]{"rowid", "Category", "Description", "DataProtein", "DataFatTotalLipid", "DataCarbohydrate"}, "Category LIKE ?", new String[]{"%" + name + "%"}, null, null, "Category", String.valueOf(SEARCH_PRODUCTS_LIMIT));
-
+        String query = "select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, (DataProtein + DataCarbohydrate) * 4 + (DataFatTotalLipid * 9) as Kcal\n" +
+                "from food \n" +
+                "where Category like ? \n" +
+                "order by Category, Description\n" +
+                "limit ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{"%" + name + "%", String.valueOf(SEARCH_PRODUCTS_LIMIT)});
         ArrayList<Product> products = setProductFields(cursor);
         db.close();
         return products;
@@ -143,8 +143,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Product getProductById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate from food where rowid = ?", new String[]{String.valueOf(id)});
-
+        String query = "select rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, (DataProtein + DataCarbohydrate) * 4 + (DataFatTotalLipid * 9) as Kcal\n" +
+                "from food \n" +
+                "where rowid = ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
         Product product = setProductFields(cursor).get(0);
         db.close();
         return product;
@@ -152,6 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Sets product fields by sql query and return Array of products
+     *
      * @param cursor contains sql query
      * @return Array of products that match cursor query
      */
@@ -163,15 +166,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
 
+            int kcal = cursor.getInt(cursor.getColumnIndexOrThrow("Kcal"));
             double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein"));
             double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid"));
             double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate"));
             product.setProtein(protein);
             product.setFat(fat);
             product.setCarbs(carbs);
-
-            // calculate kcal because there is none in DB
-            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
             product.setKcal(kcal);
 
             products.add(product);
@@ -189,7 +190,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private boolean checkIfExistInDB(Product product) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select Category, Description from food where Category = ? AND Description = ?", new String[]{product.getName(), product.getDescription()});
-
         if (cursor.getCount() > 0) {
             cursor.close();
             db.close();
@@ -211,7 +211,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (checkIfExistInDB(product)) {
             return false;
         }
-
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -225,44 +224,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("DataProtein", protein);
         values.put("DataFatTotalLipid", fat);
         values.put("DataCarbohydrate", carbs);
-        long result = db.insert("food", null, values);
+        long result = db.insert(FOOD_TABLE_NAME, null, values);
         db.close();
         return result >= 0;
     }
 
     /**
-     * Delete product from database
+     * Delete product from food table
+     * Delete from meal table if exist
      *
      * @param id row id
-     * @return true if number of deleted rows is greater than 0
+     * @return true if number of deleted rows from food is greater than 0
      */
     public boolean deleteProduct(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // Cursor cursor = db.rawQuery("DELETE FROM food WHERE rowid = ?", new String[] {String.valueOf(id)});
         int deletedRows = db.delete(FOOD_TABLE_NAME, "rowid = ?", new String[]{String.valueOf(id)});
         db.delete(MEAL_TABLE_NAME, "ProductId = ?", new String[]{String.valueOf(id)});
         db.close();
         return deletedRows > 0;
     }
 
+    /**
+     * Check if meal table exist
+     * if not then create one
+     */
     private void checkMealTableExist() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='meal'",null);
+        String query = "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{MEAL_TABLE_NAME});
         if (cursor.getCount() == 0) {
             try {
                 db.execSQL("CREATE TABLE meal (DateId TEXT, Meal TEXT, ProductId INTEGER, Grams INTEGER);");
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cursor.close();
             }
         }
+        cursor.close();
     }
 
     public boolean addProductToMeal(String date, String meal, int productId, int grams) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
         checkMealTableExist();
-
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("DateId", date);
         values.put("Meal", meal);
@@ -273,7 +277,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result >= 0;
     }
 
-    public ArrayList<ProductInMeal> getProductsFromDay(String date) {
+    /**
+     * Get kcal, proteins, fats, carbs from chosen day. Used in bottom fragment
+     * @param date MainActivity date
+     * @return sum of kcal, proteins, fats, carbs
+     */
+    public ProductBase getKcalFromDay(String date) {
         try {
             createDatabase();
         } catch (IOException e) {
@@ -282,15 +291,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         checkMealTableExist();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select ProductId, meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? ;", new String[]{date});
-        ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
+        String query = "select sum(((DataProtein * 4) + (DataFatTotalLipid * 9) + (DataCarbohydrate * 4)) * Grams / 100) as Kcal,\n" +
+                "sum(DataProtein * Grams / 100) as Proteins,\n" +
+                "sum(DataFatTotalLipid * Grams / 100) as Fats,\n" +
+                "sum(DataCarbohydrate * Grams / 100) as Carbs\n" +
+                "from meal join food on food.rowid=meal.ProductId\n" +
+                "where DateId = ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{date});
+        ProductBase product = new ProductBase();
+        if (cursor.moveToNext()) {
+            product.setKcal(cursor.getInt(cursor.getColumnIndexOrThrow("Kcal")));
+            product.setProtein(cursor.getDouble(cursor.getColumnIndexOrThrow("Proteins")));
+            product.setFat(cursor.getDouble(cursor.getColumnIndexOrThrow("Fats")));
+            product.setCarbs(cursor.getDouble(cursor.getColumnIndexOrThrow("Carbs")));
+        }
+        cursor.close();
         db.close();
-        return products;
+        return product;
     }
 
     public ArrayList<ProductInMeal> getProductsFromMeal(String date, String meal) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select ProductId, meal.rowid, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams from food inner join meal on food.rowid=meal.ProductId where DateId = ? and Meal = ?;", new String[]{date, meal});
+        String query = "select ProductId, meal.rowid as IdInMealDB, Category, Description, DataProtein, DataFatTotalLipid, DataCarbohydrate, Grams," +
+                "((DataProtein + DataCarbohydrate) * 4 + (DataFatTotalLipid * 9)) * Grams / 100 as Kcal\n" +
+                "from food inner join meal on ProductId = food.rowid\n" +
+                "where DateId = ? and Meal = ? ;";
+        Cursor cursor = db.rawQuery(query, new String[]{date, meal});
         ArrayList<ProductInMeal> products = setProductInMealFields(cursor);
         db.close();
         return products;
@@ -301,14 +327,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             ProductInMeal product = new ProductInMeal();
             product.setId(cursor.getInt(cursor.getColumnIndexOrThrow("ProductId")));
-            product.setIdInMealDB(cursor.getInt(cursor.getColumnIndexOrThrow("rowid")));
+            product.setIdInMealDB(cursor.getInt(cursor.getColumnIndexOrThrow("IdInMealDB")));
             product.setName(cursor.getString(cursor.getColumnIndexOrThrow("Category")));
             product.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("Description")));
             int grams = cursor.getInt(cursor.getColumnIndexOrThrow("Grams"));
             double protein = cursor.getDouble(cursor.getColumnIndexOrThrow("DataProtein")) * grams / 100;
             double fat = cursor.getDouble(cursor.getColumnIndexOrThrow("DataFatTotalLipid")) * grams / 100;
             double carbs = cursor.getDouble(cursor.getColumnIndexOrThrow("DataCarbohydrate")) * grams / 100;
-            int kcal = (int) ((protein + carbs) * 4 + fat * 9);
+            int kcal = cursor.getInt(cursor.getColumnIndexOrThrow("Kcal"));
             product.setProtein(protein);
             product.setFat(fat);
             product.setCarbs(carbs);
@@ -329,8 +355,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void editProductInMeal(int idInMealDB, Integer grams) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        try {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
             db.execSQL("update meal set Grams = ? where rowid = ?", new Integer[]{grams, idInMealDB});
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -346,7 +371,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
-
 
 
 }
