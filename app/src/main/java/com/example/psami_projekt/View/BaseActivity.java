@@ -50,8 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                     case R.id.summary:
 
                         break;
-                    case R.id.bodyMeasurements:
-
+                    case R.id.calculator:
+                        Intent intentCalculator = new Intent(getApplicationContext(), CalculatorActivity.class);
+                        startActivity(intentCalculator);
+                        drawerLayout.closeDrawers();
                         break;
                     case R.id.settings:
                         Intent intentDailyGoals = new Intent(getApplicationContext(), DailyGoalsActivity.class);

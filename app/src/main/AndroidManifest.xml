@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.psami_projekt">
+    package="com.example.psami_projekt" >
 
     <application
         android:allowBackup="true"
@@ -8,19 +8,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PSAMI_projekt">
+        android:theme="@style/Theme.PSAMI_projekt" >
+        <activity
+            android:name=".View.CalculatorActivity"
+            android:exported="false"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".View.BaseActivity"
             android:exported="false"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".View.DailyGoalsActivity"
             android:exported="false"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".View.CalendarActivity"
             android:exported="false"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".View.ProductActivity"
             android:exported="false" />
@@ -33,7 +37,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".View.MainScreen.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

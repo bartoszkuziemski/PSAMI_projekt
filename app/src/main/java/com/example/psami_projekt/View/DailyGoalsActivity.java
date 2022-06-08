@@ -146,7 +146,7 @@ public class DailyGoalsActivity extends BaseActivity {
     }
 
     private Integer calculatePercentage(Integer maxValue, Integer kcalInGram, TextView txtPercentage) {
-        Integer percentage = maxValue * kcalInGram * 100 / maxKcal;
+        Integer percentage = Math.round((float) maxValue * kcalInGram * 100 / maxKcal);
         txtPercentage.setText(percentage.toString());
         return percentage;
     }

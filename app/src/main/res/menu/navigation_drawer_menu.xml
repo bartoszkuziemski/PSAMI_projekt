@@ -22,8 +22,8 @@
         android:icon="@drawable/ic_summary"/>
 
     <item
-        android:title="Body Measurements"
-        android:id="@+id/bodyMeasurements"
+        android:title="Calculator"
+        android:id="@+id/calculator"
         android:icon="@drawable/ic_body_measurements"/>
 
     <item
