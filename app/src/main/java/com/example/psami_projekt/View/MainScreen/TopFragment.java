@@ -47,14 +47,14 @@ public class TopFragment extends Fragment {
         btnPreviousWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newDate = chosenDate.minusDays(dayOfWeek).toString();
+                LocalDate newDate = chosenDate.minusDays(dayOfWeek);
                 startNewActivity(newDate);
             }
         });
         btnNextWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newDate = chosenDate.plusDays(7 - dayOfWeek + 1).toString();
+                LocalDate newDate = chosenDate.plusDays(7 - dayOfWeek + 1);
                 startNewActivity(newDate);
             }
         });
@@ -79,17 +79,22 @@ public class TopFragment extends Fragment {
             textViews.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String newDate = dates.get(finalI).toString();
+                    LocalDate newDate = dates.get(finalI);
                     startNewActivity(newDate);
                 }
             });
         }
     }
 
-    private void startNewActivity(String newDate) {
+    private void startNewActivity(LocalDate newDate) {
         Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(CalendarActivity.DATE_ID_KEY, newDate);
+        intent.putExtra(CalendarActivity.DATE_ID_KEY, newDate.toString());
         startActivity(intent);
+        if (newDate.isAfter(chosenDate)) {
+            getActivity().overridePendingTransition(R.anim.slide_in_next, R.anim.slide_out_next);
+        } else if (newDate.isBefore(chosenDate)) {
+            getActivity().overridePendingTransition(R.anim.slide_in_previous, R.anim.slide_out_previous);
+        }
         requireActivity().finishAffinity();
     }
 
