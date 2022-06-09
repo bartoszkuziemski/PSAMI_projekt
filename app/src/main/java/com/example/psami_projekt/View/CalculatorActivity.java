@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.psami_projekt.Model.Utils;
 import com.example.psami_projekt.R;
@@ -113,12 +114,13 @@ public class CalculatorActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 utils.setMaxKcal(AMR.intValue());
-                Integer maxProteins = (int) (AMR / 4 * 0.5);
+                Integer maxProteins = (int) (AMR / 4 * 0.2);
                 Integer maxFats = (int) (AMR / 9 * 0.3);
-                Integer maxCarbs = (int) (AMR / 4 * 0.2);
+                Integer maxCarbs = (int) (AMR / 4 * 0.5);
                 utils.setMaxProteins(maxProteins);
                 utils.setMaxFats(maxFats);
                 utils.setMaxCarbs(maxCarbs);
+                Toast.makeText(CalculatorActivity.this, "Settings saved", Toast.LENGTH_SHORT).show();
             }
         });
     }
